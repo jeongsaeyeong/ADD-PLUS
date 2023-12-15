@@ -1,0 +1,287 @@
+#login__Wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 95px;
+
+    .login__header {
+        width: 550px;
+        margin-bottom: 44px;
+
+        h1 {
+            font-size: 50px;
+            font-weight: 900;
+        }
+
+        p {
+            font-size: 22px;
+
+            span {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    .login__main {
+        width: 550px;
+
+        div {
+            margin-bottom: 20px;
+
+            label {
+                display: flex;
+                width: 100%;
+                text-align: left;
+                margin-bottom: 10px;
+                font-size: 20px;
+            }
+
+            div {
+                input {
+                    width: 100%;
+                    border: 2px solid var(--white200);
+                    padding: 20px 20px 16px;
+                    border-radius: 8px;
+                    margin-bottom: 10px;
+                    outline: none;
+                }
+
+                ::placeholder {
+                    color: var(--white300);
+                }
+            }
+        }
+
+        .login_button_box {
+            width: 550px;
+
+            .login__button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                background-color: var(--primary-color);
+                color: var(--white);
+                height: 60px;
+                width: 100%;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                font-size: 18px;
+            }
+
+            div {
+                padding-top: 10px;
+                display: flex;
+                font-size: 15px;
+                justify-content: center;
+
+                ul {
+                    padding-right: 10px;
+
+                    li {
+                        transition: all 0.3s;
+                    }
+
+                    li:hover {
+                        text-decoration: underline;
+                        color: var(--primary-color);
+                    }
+                }
+            }
+        }
+    }
+
+    .login__under {
+        width: 550px;
+
+        .first {
+            display: flex;
+            justify-content: center;
+            background-color: #E0F8F0;
+            padding: 20px;
+            font-size: 18px;
+            border-radius: 8px;
+
+            a {
+                margin-left: 5px;
+                color: var(--primary-color);
+            }
+        }
+
+        .author {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            div {
+                cursor: pointer;
+                margin-left: 5px;
+                width: 48px;
+                height: 48px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            .google {
+                background-image: url(../../img/google.png);
+            }
+
+            .kakao {
+                background-image: url(../../img/kakao.png);
+            }
+
+            .naver {
+                background-image: url(../../img/naver.png);
+            }
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    #login__Wrap {
+        padding: 80px 50px;
+
+        .login__header {
+            h1 {
+                font-size: 35px;
+            }
+
+            p {
+                font-size: 18px;
+            }
+        }
+
+        .login__main {
+            width: 100%;
+
+            div {
+                label {
+                    font-size: 16px;
+                }
+
+                input {
+                    font-size: 16px;
+                }
+
+                ::placeholder {
+                    font-size: 15px;
+                }
+            }
+
+            .login_button_box {
+                width: 100%;
+
+                .login__button {
+                    font-size: 15px;
+                }
+
+                div {
+                    font-size: 13px;
+
+                    .join01__right {
+                        ul {
+                            li {
+                                a {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .login__under {
+            width: 100%;
+
+            .first {
+                font-size: 16px;
+            }
+
+            .author {
+                div {
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    #login__Wrap {
+        padding: 80px 20px;
+
+        .login__header {
+            h1 {
+                font-size: 30px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+        }
+
+        .login__main {
+            width: 100%;
+
+            div {
+                label {
+                    font-size: 16px;
+                }
+
+                ::placeholder {
+                    font-size: 14px;
+                }
+            }
+
+            .login_button_box {
+                padding-top: 20px;
+                width: 100%;
+
+                .login__button {
+                    height: 50px;
+                    font-size: 14px;
+                }
+
+                div {
+                    padding-top: 0;
+                    font-size: 13px;
+
+                    .join01__right {
+                        ul {
+                            li {
+                                a {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .login__under {
+            width: 100%;
+
+            .first {
+                font-size: 14px;
+            }
+
+            .author {
+                p {
+                    font-size: 13px;
+                }
+
+                div {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+    }
+}

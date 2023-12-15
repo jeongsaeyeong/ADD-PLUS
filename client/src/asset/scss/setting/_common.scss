@@ -1,0 +1,40 @@
+body {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+// 각 섹션의 공통 요소
+section {
+    padding: 40px;
+
+    @media (max-width: 800px) {
+        padding: 20px;
+    }
+}
+
+/* 스크롤 */
+.scroll__style::-webkit-scrollbar {
+    width: 10px;
+    background-color: #525252;
+}
+
+.scroll__style::-webkit-scrollbar-thumb {
+    height: 20%;
+    background: var(--white);
+    border-radius: 5px;
+}
+
+.scroll__style::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+// 로딩 소스
+.isLoading {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.isLoaded {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
