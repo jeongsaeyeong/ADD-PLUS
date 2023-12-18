@@ -9,12 +9,21 @@ import Find from './components/user/Find.jsx'
 import Find02 from './components/user/Find02.jsx'
 import Find03 from './components/user/Find03.jsx'
 import Comm from './components/community/Comm.jsx'
+import CommWrite from './components/community/CommWrite.jsx'
+import Header from './components/layout/Header.jsx'
+import Home from './page/Home.jsx'
+import CommDetail from './components/community/CommDetail.jsx'
 
 const App = () => {
   return (
     <>
+      <Header />
       <Routes>
+        <Route path='/' element={<Home />}></Route>
         <Route path='/comm' element={<Comm />}></Route>
+        <Route path='/commwrite' element={<CommWrite />}></Route>
+        <Route path='/commdetail' element={<CommDetail />}></Route>
+
         <Route path='/join01' element={<Join01 />}></Route>
         <Route path='/join02' element={<Join02 />}></Route>
         <Route path='/join03' element={<Join03 />}></Route>

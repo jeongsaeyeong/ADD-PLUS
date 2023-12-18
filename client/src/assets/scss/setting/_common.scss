@@ -1,6 +1,18 @@
 body {
     background-color: var(--white);
     color: var(--black);
+    font-family: var(--mainfont-Gmarket-medium);
+    letter-spacing: -0.5px;
+}
+
+main {
+    min-height: 90vh;
+}
+
+.container {
+    max-width: 1450px;
+    width: 96%;
+    margin: 0 auto;
 }
 
 // 각 섹션의 공통 요소

@@ -1,0 +1,49 @@
+#footer {
+    background-color: var(--white100);
+    padding: 3vw;
+
+    .footer__wrap {
+        display: flex;
+        align-items: center;
+
+        .footer__logo {
+            margin-right: 2vw;
+            width: 100px;
+        }
+
+        .footer__info {
+            .privacy__links {
+                ul {
+                    display: flex;
+
+                    li {
+                        margin-right: 1.5vw;
+
+                        a {
+                            font-size: 0.8rem;
+                            color: var(--black700);
+                            font-family: var(--mainfont-Noto);
+                            line-height: 1;
+
+                            &:hover {
+                                text-decoration: underline;
+                                text-underline-position: under;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .copyright__info {
+                p {
+                    font-size: 0.8rem;
+                    color: var(--black700);
+                    font-family: var(--mainfont-Noto);
+                    line-height: 1;
+                    font-weight: 100;
+                }
+            }
+        }
+    }
+
+}
