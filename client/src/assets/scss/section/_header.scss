@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+    border-bottom: 1px solid #D6D6D6;
 
     .header__left {
         display: flex;
@@ -17,6 +18,11 @@
             background-color: var(--black100);
             position: relative;
 
+
+            @media (max-width:1200px) {
+                width: 23px;
+            }
+
             &::before {
                 content: '';
                 top: 8px;
@@ -26,6 +32,10 @@
                 background-color: var(--black100);
                 text-align: center;
                 position: absolute;
+
+                @media (max-width:1200px) {
+                    width: 23px;
+                }
             }
 
             &::after {
@@ -37,12 +47,19 @@
                 background-color: var(--black100);
                 text-align: center;
                 position: absolute;
+
+                @media (max-width:1200px) {
+                    width: 23px;
+                }
             }
         }
 
         .logo {
             margin: 0 5vw 0 3vw;
 
+            @media (max-width:800px) {
+                margin: 1vw 3vw 1vw 2vw;
+            }
 
             a {
                 display: flex;
@@ -55,6 +72,10 @@
 
                     object-fit: cover;
                     object-position: center;
+
+                    @media (max-width:1200px) {
+                        width: 90%;
+                    }
                 }
             }
         }
@@ -81,7 +102,21 @@
                         &.active {
                             color: var(--primary-color);
                         }
+
+                        @media (max-width:1200px) {
+                            font-size: 0.9rem;
+                        }
+
                     }
+
+                    @media (max-width:800px) {
+                        padding: 0 1vw;
+                    }
+
+                }
+
+                @media (max-width:600px) {
+                    display: none;
                 }
             }
         }
@@ -100,5 +135,14 @@
                 color: var(--primary-color);
             }
         }
+
+        @media (max-width:1200px) {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width:800px) {
+            padding: 1vw 1.5vw;
+        }
     }
+
 }

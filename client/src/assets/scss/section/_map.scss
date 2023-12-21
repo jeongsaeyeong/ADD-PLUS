@@ -1,0 +1,341 @@
+.info__wrap {
+    display: flex;
+    flex-wrap: wrap;
+    height: inherit;
+
+    .nav {
+        width: 15%;
+        background-color: #F4F4F4;
+        text-align: center;
+        border-right: 2px solid #D6D6D6;
+
+        h2 {
+            margin: 0 auto;
+            width: 90%;
+            margin-top: 55px;
+            padding: 15px 10px 12px;
+            background-color: var(--primary-color);
+            font-size: 20px;
+            border-radius: 7px;
+            color: var(--white);
+            font-weight: 900;
+        }
+
+        ul {
+            margin-top: 30px;
+            background-color: var(--white);
+
+            li {
+                text-align: left;
+                padding: 15px 20px 12px;
+                display: flex;
+                align-items: center;
+                position: relative;
+
+                div {
+                    margin-right: 5px;
+                    margin-bottom: 3px;
+                    width: 20px;
+                    height: 20px;
+                    background-size: cover;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+
+                    svg {
+                        color: #565656;
+                        position: absolute;
+                        content: '';
+                        top: 1.6vh;
+                        left: 18px;
+                    }
+                }
+
+                button {
+                    color: #565656;
+                    background-color: #ffffff00;
+                    cursor: pointer;
+                }
+            }
+
+            .active {
+                background-color: #D9F2E9;
+
+                div {
+                    svg {
+                        color: var(--black);
+                    }
+                }
+
+                button {
+                    color: var(--black);
+                }
+            }
+        }
+    }
+
+    .map__info {
+        width: 85%;
+        margin: 5vh 0 3vh 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .map__header {
+            width: 85%;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #D6D6D6;
+
+            .map__title {
+                display: inline-block;
+                padding: 0.5rem 1.5rem;
+                border-bottom: 3px solid var(--gree);
+                font-size: 1.5rem;
+            }
+
+            .map__search {
+                display: flex;
+                align-items: center;
+                border: 1px solid #D6D6D6;
+                border-radius: 5px;
+                // padding: 0.rem 1rem;
+                margin-bottom: 1vh;
+                position: relative;
+
+                input {
+                    margin-left: 1rem;
+                    font-size: 1.2rem;
+                    padding: 0.5rem 1rem;
+
+                    &::placeholder {
+                        color: #D6D6D6;
+                    }
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                }
+
+                .search__img {
+                    position: absolute;
+                    content: '';
+                    left: 0;
+                    top: 6px;
+
+
+                    svg {
+                        color: #D6D6D6;
+                        width: 100%;
+                        width: 2rem;
+                        height: 1.5rem;
+                    }
+                }
+            }
+        }
+
+        .local__tap {
+            width: 85%;
+            margin-top: 1vw;
+            padding: 0 3vw;
+
+            ul {
+
+                display: flex;
+                justify-content: space-between;
+
+                li {
+                    padding: 0.3rem 1rem;
+
+                    button {
+                        font-size: 1.1rem;
+                        color: #626262;
+                        background-color: var(--white);
+                        cursor: pointer;
+                    }
+
+                    &.activeTap {
+                        border: 1px solid var(--primary-color);
+                        border-radius: 50px;
+
+                        button {
+                            color: var(--primary-color);
+                        }
+                    }
+
+                    &:hover {
+                        border: 1px solid var(--primary-color);
+                        border-radius: 50px;
+
+                        button {
+                            color: var(--primary-color);
+                        }
+                    }
+                }
+            }
+        }
+
+        .local__UN {
+            width: 85%;
+            overflow: hidden;
+
+            .koreaMap {
+                margin: 0 auto;
+                width: 70%;
+                height: 100vh;
+                background-image: url(../../img/map/korea__map.png);
+                position: relative;
+                background-position: center center;
+                background-size: cover;
+
+                .mapLocal {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+
+                    .localName {
+                        position: absolute;
+
+                        button {
+                            width: 3rem;
+                            font-size: 1rem;
+                            color: #626262;
+                            background-color: #ffffff00;
+                            cursor: pointer;
+                            transition: all 0.2s;
+
+                            &:hover {
+                                color: var(--black);
+                                font-size: 1.1rem;
+                            }
+                        }
+
+                        &.서울 {
+                            top: 20.5vh;
+                            left: 18.5vw;
+
+                        }
+
+                        &.경기 {
+                            top: 24vh;
+                            left: 21vw;
+                        }
+
+                        &.강원 {
+                            top: 18vh;
+                            left: 28vw;
+                        }
+
+                        &.인천 {
+                            top: 22vh;
+                            left: 16vw;
+                        }
+
+                        &.충남 {
+                            top: 38vh;
+                            left: 18vw;
+                        }
+
+                        &.충북 {
+                            top: 35vh;
+                            left: 23vw;
+                        }
+
+                        &.대전 {
+                            top: 42vh;
+                            left: 21.3vw;
+                        }
+
+                        &.경북 {
+                            top: 42vh;
+                            left: 30vw;
+                        }
+
+                        &.경남 {
+                            top: 58vh;
+                            left: 26vw;
+                        }
+
+                        &.대구 {
+                            top: 50.5vh;
+                            left: 29.5vw;
+                        }
+
+                        &.부산 {
+                            top: 61.5vh;
+                            left: 33vw;
+                        }
+
+                        &.울산 {
+                            top: 55.5vh;
+                            left: 34vw;
+                        }
+
+                        &.전북 {
+                            top: 53vh;
+                            left: 20vw;
+                        }
+
+                        &.전남 {
+                            top: 64vh;
+                            left: 20vw;
+                        }
+
+                        &.광주 {
+                            top: 62.3vh;
+                            left: 17.45vw;
+                        }
+
+                        &.제주 {
+                            top: 92vh;
+                            left: 15.5vw;
+                        }
+
+                        &.독도 {
+                            top: 21vh;
+                            left: 44vw;
+
+                            span {
+                                width: 3rem;
+                                display: inline-block;
+                                font-size: 1rem;
+                                color: #626262;
+                                background-color: rgba(255, 255, 255, 0);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+// MapDetaile
+.mapdetail__wrap {
+    margin: 3vh 0;
+
+    .map_desc {
+        span {
+            padding-left: 1vw;
+            text-align: start;
+            display: block;
+            font-size: 0.9rem;
+            color: #464646;
+            position: relative;
+
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 5px;
+                left: 0.4vw;
+                width: 5px;
+                height: 5px;
+                background-color: #464646;
+                border-radius: 50%;
+            }
+        }
+    }
+}

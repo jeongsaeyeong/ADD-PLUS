@@ -331,12 +331,13 @@
                             margin-top: 0.3vw;
                             display: block;
                             color: #494949;
+                            word-break: keep-all;
                         }
 
                         img {
                             position: absolute;
                             bottom: 0;
-                            width: 85%;
+                            width: 80%;
                             object-fit: contain;
                             object-position: bottom;
                         }
@@ -350,6 +351,18 @@
                     &:nth-child(3) {
                         border: none;
                         background: #e5f8fc;
+
+                        img {
+                            width: 70%;
+                            right: 25px;
+                        }
+                    }
+
+                    &:nth-child(4) {
+                        img {
+                            width: 70%;
+                            right: 25px;
+                        }
                     }
 
                 }
@@ -465,6 +478,7 @@
                             .comm__HOF__title {
                                 width: 60%;
                                 margin: 0;
+
                                 a {
                                     font-size: 1.2rem;
                                     @include line-one;
@@ -564,39 +578,31 @@
     }
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1200px) {
     #main {
         #slider {
-
             .slider__Wrap {
-
                 .slider {
-
                     .slider__text {
-
-
                         .slider__btn {}
 
-                        .slider__title {}
+                        .slider__title {
+                            font-size: 3.5rem;
+                        }
 
-                        .slider__desc {}
+                        .slider__desc {
+                            font-size: 1.2vw;
+                        }
                     }
-
-
                 }
             }
-
         }
 
         #maine__data {
-
             #main__left {
-
-
                 .main__comm__best {
-
-
                     .main__comm__title {
+                        font-size: 1.3rem;
 
                         span {}
                     }
@@ -606,36 +612,46 @@
                         .main__comm__info {
                             .comm__like {
 
-                                .emoz {}
+                                .emoz {
+                                    font-size: 1.1rem;
+                                }
 
-                                .like__button {}
+                                .like__button {
+                                    width: 1.1rem;
+                                    height: 1.1rem;
+                                }
                             }
 
                             .comm__header {
 
                                 .category {
 
-                                    .cate_1 {}
+                                    .cate_1 {
+                                        font-size: 0.8rem;
+                                    }
 
-                                    .cate_2 {}
+                                    .cate_2 {
+                                        font-size: 0.8rem;
+                                    }
                                 }
 
                                 .comm__title {
-                                    a {}
-
-                                    :hover {}
+                                    a {
+                                        font-size: 1.1rem;
+                                    }
                                 }
                             }
 
                             .comm__info {
-
-
-                                span {}
+                                span {
+                                    font-size: 0.9rem;
+                                }
                             }
 
                             .comm__nickname {
-
-                                span {}
+                                span {
+                                    font-size: 0.8rem;
+                                }
                             }
                         }
 
@@ -644,19 +660,29 @@
                             .comm__left {
 
                                 .comm__view {
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
 
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
 
-                                    img {}
-
-                                    span {}
+                                    svg {}
                                 }
 
                                 .comm__like__view {
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
 
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
 
-                                    img {}
-
-                                    span {}
+                                    svg {}
                                 }
 
 
@@ -666,7 +692,9 @@
 
                                 .comm__date {
 
-                                    span {}
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
                                 }
                             }
                         }
@@ -674,7 +702,6 @@
                 }
 
                 .main__ad {
-                    margin-top: 2vw;
 
                     img {}
                 }
@@ -693,45 +720,71 @@
                 .main__menu__link {
 
                     .menu__link {
+                        height: 190px;
 
                         a {
 
-                            h4 {}
+                            h4 {
+                                font-size: 1rem;
+                            }
 
-                            span {}
+                            span {
+                                font-size: 0.6rem;
+                            }
 
-                            img {}
+                            img {
+                                right: 45px;
+                                width: 60%;
+                            }
                         }
 
+                        &:nth-child(3) {
+   
+                            img {
+                                width: 60%;
+                                right: 30px;
+                            }
+                        }
+    
+                        &:nth-child(4) {
+                            img {
+                                width: 60%;
+                                right: 30px;
+                            }
+                        }
 
                     }
                 }
             }
 
             #main__right {
-
-
                 .main__today {
                     h3 {
-
+                        font-size: 1.3rem;
 
                         span {}
                     }
 
                     .today__box {
+                        .today__box__left {
+                            font-size: 1rem;
+                        }
 
-
-                        .today__box__left {}
-
-                        .today__box__right {}
+                        .today__box__right {
+                            font-size: 2.2rem;
+                        }
                     }
 
-                    .comm__link {}
+                    .comm__link {
+                        font-size: 0.6rem;
+
+                    }
                 }
 
                 .comm__HOF {
                     .comm__HOF__title {
-
+                        margin: 0.8vw 0;
+                        font-size: 1.3rem;
 
                         span {}
                     }
@@ -742,12 +795,21 @@
 
                             .comm__HOF__header {
 
-                                .comm__HOF__emoz {}
+                                .comm__HOF__emoz {
+                                    font-size: 1rem;
+                                }
 
-                                .comm__HOF__cate {}
+                                .comm__HOF__cate {
+                                    padding: 3px 7px;
+                                    font-size: 0.8rem;
+                                }
 
                                 .comm__HOF__title {
-                                    a {}
+                                    width: 50%;
+
+                                    a {
+                                        font-size: 1rem;
+                                    }
                                 }
                             }
 
@@ -760,24 +822,44 @@
                             .HOF__left {
 
                                 .HOF__view {
+                                    margin-right: 0.8vw;
 
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
 
-                                    img {}
+                                    svg {}
 
-                                    span {}
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
                                 }
 
                                 .HOF__like__view {
 
-                                    img {}
+                                    svg {
+                                        width: 0.8rem;
+                                        height: 0.8rem;
+                                    }
 
-                                    span {}
+                                    img {
+                                        width: 0.8rem;
+                                        height: 0.8rem;
+                                        margin-top: -1px;
+                                    }
+
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
                                 }
                             }
 
                             .HOF__right {
                                 .HOF__nickname {
-                                    span {}
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
                                 }
                             }
 
@@ -788,5 +870,583 @@
             }
         }
     }
+}
 
+@media (max-width: 800px) {
+    #main {
+        #slider {
+            .slider__Wrap {
+                height: 30vh;
+
+                .slider {
+                    .slider__text {
+                        .slider__btn {}
+
+                        .slider__title {}
+
+                        .slider__desc {
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        #maine__data {
+            #main__left {
+                width: 100%;
+
+                .main__comm__best {
+                    .main__comm__title {
+                        font-size: 1.5rem;
+
+                        span {}
+                    }
+
+                    .main__comm {
+                        .main__comm__info {
+                            .comm__like {
+
+                                .emoz {
+                                    font-size: 1.5rem;
+                                }
+
+                                .like__button {
+                                    width: 1.5rem;
+                                    height: 1.5rem;
+                                }
+                            }
+
+                            .comm__header {
+
+                                .category {
+
+                                    .cate_1 {
+                                        font-size: 1rem;
+                                    }
+
+                                    .cate_2 {
+                                        font-size: 1rem;
+                                    }
+                                }
+
+                                .comm__title {
+                                    a {
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+
+                            .comm__info {
+                                span {
+                                    font-size: 1rem;
+                                }
+                            }
+
+                            .comm__nickname {
+                                span {
+                                    font-size: 0.9rem;
+                                }
+                            }
+                        }
+
+                        .main__comm__view {
+
+                            .comm__left {
+
+                                .comm__view {
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
+
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
+                                    svg {}
+                                }
+
+                                .comm__like__view {
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
+
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
+
+                                    svg {}
+                                }
+
+
+                            }
+
+                            .comm__right {
+
+                                .comm__date {
+
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .main__ad {
+                    img {}
+                }
+
+                .main__Un__ad {
+                    .un__ad {
+                        a {
+                            img {}
+                        }
+                    }
+                }
+
+                .main__menu__link {
+                    flex-wrap: wrap;
+
+                    .menu__link {
+                        width: 24%;
+
+                        a {
+
+                            h4 {
+                                font-size: 1.2rem;
+                            }
+
+                            span {
+                                font-size: 0.9rem;
+                            }
+
+                            img {
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            #main__right {
+                width: 100%;
+
+                .main__today {
+                    width: 100%;
+
+                    h3 {
+                        font-size: 1.5rem;
+
+                        span {}
+                    }
+
+                    .today__box {
+                        .today__box__left {
+                            font-size: 1.5rem;
+                        }
+
+                        .today__box__right {
+                            font-size: 2.2rem;
+                        }
+                    }
+
+                    .comm__link {}
+                }
+
+                .comm__HOF {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+
+                    .comm__HOF__title {
+                        font-size: 1.5rem;
+
+                        span {}
+                    }
+
+                    .comm__HOF__box {
+                        width: 49%;
+
+                        .main__comm__info {
+
+                            .comm__HOF__header {
+
+                                .comm__HOF__emoz {
+                                    font-size: 1.2rem;
+                                }
+
+                                .comm__HOF__cate {
+                                    padding: 3px 7px;
+                                    font-size: 1rem;
+                                }
+
+                                .comm__HOF__title {
+                                    width: 50%;
+
+                                    a {
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+
+                            .comm__HOF__info {
+                                font-size: 1rem;
+                            }
+
+
+                        }
+
+                        .main__HOF__view {
+                            .HOF__left {
+
+                                .HOF__view {
+                                    margin-right: 0.8vw;
+
+                                    img {
+                                        width: 0.8rem;
+                                        height: 0.8rem;
+                                    }
+                                    svg {}
+
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
+                                }
+
+                                .HOF__like__view {
+
+                                    img {
+                                        width: 0.8rem;
+                                        height: 0.8rem;
+                                        margin-top: -1px;
+                                    }
+                                    svg{}
+
+
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
+                                }
+                            }
+
+                            .HOF__right {
+                                .HOF__nickname {
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    #main {
+        #slider {
+            .slider__Wrap {
+                height: 25vh;
+
+                .slider {
+                    .slider__text {
+                        .slider__btn {
+                            font-size: 0.8rem;
+                        }
+
+                        .slider__title {
+                            font-size: 2rem;
+                        }
+
+                        .slider__desc {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        #maine__data {
+            #main__left {
+                width: 100%;
+
+                .main__comm__best {
+                    .main__comm__title {
+                        font-size: 1.5rem;
+
+                        span {}
+                    }
+
+                    .main__comm {
+                        width: 100%;
+                        margin-bottom: 1.5vw;
+
+                        .main__comm__info {
+                            .comm__like {
+                                margin-bottom: 1.5vw;
+
+                                .emoz {
+                                    font-size: 1.3rem;
+                                }
+
+                                .like__button {
+                                    width: 1rem;
+                                    height: 1rem;
+                                }
+                            }
+
+                            .comm__header {
+
+                                .category {
+
+                                    .cate_1 {
+                                        font-size: 1rem;
+                                    }
+
+                                    .cate_2 {
+                                        font-size: 1rem;
+                                    }
+                                }
+
+                                .comm__title {
+                                    a {
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+
+                            .comm__info {
+                                span {
+                                    font-size: 1rem;
+                                }
+                            }
+
+                            .comm__nickname {
+                                span {
+                                    font-size: 0.9rem;
+                                }
+                            }
+                        }
+
+                        .main__comm__view {
+
+                            .comm__left {
+
+                                .comm__view {
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
+
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
+
+                                    svg {}
+                                }
+
+                                .comm__like__view {
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
+
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
+
+                                    svg {}
+                                }
+
+
+                            }
+
+                            .comm__right {
+
+                                .comm__date {
+
+                                    span {
+                                        font-size: 0.9rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .main__ad {
+                    display: none;
+
+                    img {}
+                }
+
+                .main__Un__ad {
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+
+                    .un__ad {
+                        width: 48%;
+                        margin-bottom: 1.5vw;
+
+                        a {
+                            img {}
+                        }
+                    }
+                }
+
+                .main__menu__link {
+                    flex-wrap: wrap;
+
+                    .menu__link {
+                        width: 49%;
+                        height: auto;
+                        margin-bottom: 1.5vw;
+                        padding: 1vw;
+
+                        a {
+
+                            h4 {
+                                font-size: 1.2rem;
+                            }
+
+                            span {
+                                font-size: 0.9rem;
+                            }
+
+                            img {
+                                display: none;
+                                // left: 85px;
+                                // width: 45%;
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+            #main__right {
+                width: 100%;
+
+                .main__today {
+                    width: 100%;
+
+                    h3 {
+                        font-size: 1.5rem;
+
+                        span {}
+                    }
+
+                    .today__box {
+                        .today__box__left {
+                            font-size: 1.1rem;
+                        }
+
+                        .today__box__right {
+                            font-size: 2rem;
+                        }
+                    }
+
+                    .comm__link {}
+                }
+
+                .comm__HOF {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+
+                    .comm__HOF__title {
+                        font-size: 1.5rem;
+
+                        span {}
+                    }
+
+                    .comm__HOF__box {
+                        width: 100%;
+
+                        .main__comm__info {
+
+                            .comm__HOF__header {
+
+                                .comm__HOF__emoz {
+                                    font-size: 1.2rem;
+                                }
+
+                                .comm__HOF__cate {
+                                    padding: 3px 7px;
+                                    font-size: 1rem;
+                                }
+
+                                .comm__HOF__title {
+                                    width: 50%;
+
+                                    a {
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+
+                            .comm__HOF__info {
+                                font-size: 1rem;
+                            }
+
+
+                        }
+
+                        .main__HOF__view {
+                            .HOF__left {
+
+                                .HOF__view {
+                                    margin-right: 0.8vw;
+
+                                    img {
+                                        width: 0.9rem;
+                                        height: 0.9rem;
+                                    }
+
+                                    svg {}
+
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
+                                }
+
+                                .HOF__like__view {
+
+                                    img {
+                                        width: 0.8rem;
+                                        height: 0.8rem;
+                                        margin-top: -1px;
+                                    }
+
+                                    svg {}
+
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
+                                }
+                            }
+
+                            .HOF__right {
+                                .HOF__nickname {
+                                    span {
+                                        font-size: 0.8rem;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }
