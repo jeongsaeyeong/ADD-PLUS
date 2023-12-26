@@ -15,7 +15,7 @@ const Comm = () => {
                             </ul>
                         </div>
                         <div className="comm__search">
-                            <input type="text" className='search'/>
+                            <input type="text" className='search' />
                             <ul>
                                 <li><a href="/commwrite">글쓰기</a></li>
                             </ul>
@@ -30,7 +30,7 @@ const Comm = () => {
                                 </div>
                                 <div className="comm__header">
                                     <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
+                                    <h2><a href="/commdetail">입시 어쩌고 저쩌고</a></h2>
                                 </div>
                                 <div className="comm__text">
                                     <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
@@ -285,13 +285,13 @@ const Comm = () => {
                         </div>
                     </div>
                     <ul class="pagination">
-                        <li  className='left'><a href="/"></a></li>
+                        <li className='left'><a href="/"></a></li>
                         <li><a href="/" className='active'>1</a></li>
                         <li><a href="/">2</a></li>
                         <li><a href="/">3</a></li>
                         <li><a href="/">4</a></li>
                         <li><a href="/">5</a></li>
-                        <li  className='right'><a href="/"></a></li>
+                        <li className='right'><a href="/"></a></li>
                     </ul>
                 </div>
             </div>

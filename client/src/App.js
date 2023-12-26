@@ -13,6 +13,7 @@ import CommWrite from './components/community/CommWrite.jsx'
 import Header from './components/layout/Header.jsx'
 import Home from './page/Home.jsx'
 import CommDetail from './components/community/CommDetail.jsx'
+import CommModify from './components/community/CommModify.jsx'
 
 const App = () => {
   return (
@@ -23,10 +24,11 @@ const App = () => {
         <Route path='/comm' element={<Comm />}></Route>
         <Route path='/commwrite' element={<CommWrite />}></Route>
         <Route path='/commdetail' element={<CommDetail />}></Route>
+        <Route path='/commmodify' element={<CommModify />}></Route>
 
         <Route path='/join01' element={<Join01 />}></Route>
-        <Route path='/join02' element={<Join02 />}></Route>
-        <Route path='/join03' element={<Join03 />}></Route>
+        <Route path='/join02/:cate' element={<Join02 />}></Route>
+        <Route path='/join03/:cate' element={<Join03 />}></Route>
         <Route path='/join04' element={<Join04 />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/find' element={<Find />}></Route>

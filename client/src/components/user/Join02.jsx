@@ -1,6 +1,9 @@
 import React from 'react'
+import { useParams, Link } from 'react-router-dom';
 
 const Join02 = () => {
+    let params = useParams();
+
     return (
         <>
             <div id="join02__Wrap">
@@ -126,7 +129,7 @@ const Join02 = () => {
                     </div>
                 </div>
                 <div className="join02_button_box">
-                    <a href="./join03" className='join__button'>계속(2/3)</a>
+                    <Link to={`/join03/${params.cate}`} className='join__button'>계속(2/3)</Link>
                     <div>
                         <div className="join02__right">
                             <ul>

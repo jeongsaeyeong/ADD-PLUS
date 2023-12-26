@@ -7,7 +7,7 @@ const RepleWrite = () => {
                 type="text"
                 placeholder='댓글을 입력해주세요'
             />
-            <button>댓글 게시</button>
+            <button>게시</button>
         </div>
     )
 }

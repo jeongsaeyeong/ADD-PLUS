@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CommSide from './CommSide'
 import Fire from '../../assets/img/icon_fire.svg'
 import Eye from '../../assets/img/icon_eye_empty.svg'
@@ -57,46 +57,6 @@ const CommDetail = () => {
                         </div>
                     </div>
                     <RepleArea />
-                </div>
-                <div className="report__Wrap">
-                    <h2>신고하기</h2>
-                    <p>허위신고일 경우, 신고자의 서비스 활동이 제한될 수 있으니
-                        신중하게 신고해주세요.</p>
-                    <div className="box">
-                        <h3>신고사유</h3>
-                        <div>
-                            <input type="checkbox" />
-                            <p>광고/음란성 댓글</p>
-                        </div>
-                        <div>
-                            <input type="checkbox" />
-                            <p>욕설/반말/부적절한 언어</p>
-                        </div>
-                        <div>
-                            <input type="checkbox" />
-                            <p>회원 분란 유도</p>
-                        </div>
-                        <div>
-                            <input type="checkbox" />
-                            <p>회원 비방</p>
-                        </div>
-                        <div>
-                            <input type="checkbox" />
-                            <p>지나친 정치/종교 논쟁</p>
-                        </div>
-                        <div>
-                            <input type="checkbox" />
-                            <p>도배성 댓글</p>
-                        </div>
-                    </div>
-                    <div className="button">
-                        <ul>
-                            <li><a href="/">취소</a></li>
-                        </ul>
-                        <button>
-                            확인
-                        </button>
-                    </div>
                 </div>
             </div>
         </>

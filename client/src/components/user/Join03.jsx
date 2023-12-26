@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 const Join03 = () => {
+    let params = useParams();
+
+    const [username, setUsername] = useState('')
+    const [userId, setUserId] = useState('')
+    const [userNick, setUserNick] = useState('')
+    const [userPass, setUserPass] = useState('')
+    const [userPassC, setUserPassC] = useState('')
+    const [userPhone, setUserPhone] = useState('')
+
     return (
         <>
             <div id="join03__Wrap">
@@ -13,39 +23,81 @@ const Join03 = () => {
                     <div>
                         <label htmlFor="youName">이름</label>
                         <div>
-                            <input type="text" placeholder='이름을 입력해주세요.' />
+                            <input
+                                type="text"
+                                placeholder='이름을 입력해주세요.'
+                                value={username}
+                                onChange={(e) => {
+                                    setUsername(e);
+                                }}
+                            />
                         </div>
                     </div>
                     <div>
                         <label htmlFor="youId">아이디</label>
                         <div className='button'>
-                            <input type="text" placeholder='이메일을 입력해주세요.' />
+                            <input
+                                type="text"
+                                placeholder='아이디를 입력해주세요.'
+                                value={userId}
+                                onChange={(e) => {
+                                    setUserId(e);
+                                }}
+                            />
                             <button>중복검사</button>
                         </div>
                     </div>
                     <div>
                         <label htmlFor="youNick">닉네임</label>
                         <div className='button'>
-                            <input type="text" placeholder='닉네임을 입력해주세요.' />
+                            <input
+                                type="text"
+                                placeholder='닉네임을 입력해주세요.'
+                                value={userNick}
+                                onChange={(e) => {
+                                    setUserNick(e);
+                                }}
+                            />
                             <button>중복검사</button>
                         </div>
                     </div>
                     <div>
                         <label htmlFor="youPass">비밀번호</label>
                         <div>
-                            <input type="password" placeholder='비밀번호를 입력해주세요.' />
+                            <input
+                                type="password"
+                                placeholder='비밀번호를 입력해주세요.'
+                                value={userPass}
+                                onChange={(e) => {
+                                    setUserPass(e);
+                                }}
+                            />
                         </div>
                     </div>
                     <div>
                         <label htmlFor="youPassC">비밀번호 확인</label>
                         <div>
-                            <input type="password" placeholder='비밀번호를 재입력해주세요.' />
+                            <input
+                                type="password"
+                                laceholder='비밀번호를 재입력해주세요.'
+                                value={userPassC}
+                                onChange={(e) => {
+                                    setUserPassC(e);
+                                }}
+                            />
                         </div>
                     </div>
                     <div>
                         <label htmlFor="youPhone">전화번호</label>
                         <div>
-                            <input type="text" placeholder='전화번호를 입력해주세요.' />
+                            <input
+                                type="text"
+                                placeholder='전화번호를 입력해주세요.'
+                                value={userPhone}
+                                onChange={(e) => {
+                                    setUserPhone(e);
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
