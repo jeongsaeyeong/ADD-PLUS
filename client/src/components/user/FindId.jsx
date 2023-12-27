@@ -1,35 +1,35 @@
-import axios from 'axios'
+import axios from 'axios';
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-const Find = () => {
-    const [userId, setUserId] = useState('')
+const FindId = () => {
+    const [userName, setUserName] = useState('')
     const [userEmail, setUserEmail] = useState('')
 
     const navigate = useNavigate();
 
-    const FindPass = (e) => {
+    const FindId = (e) => {
         e.preventDefault()
-        if (!(userId && userEmail)) {
+        if (!(userName && userEmail)) {
             return alert("항목을 모두 기입해주세요.")
         }
 
         let body = {
-            userId: userId,
+            displayname: userName,
             userEmail: userEmail,
         }
 
-        axios.post("/api/user/findpass", body)
+        axios.post("/api/user/findid", body)
             .then((res) => {
                 console.log(res)
                 if (res.data.success) {
-                    alert("비밀번호를 찾았습니다.")
-                    navigate(`/find02/${userId}`)
+                    alert("아이디를 찾았습니다.")
+                    navigate(`/findid02/${userEmail}`)
                 }
             })
             .catch((err) => {
                 console.log(err);
-                navigate('/find03')
+                navigate('/findid03')
             })
     }
 
@@ -37,19 +37,19 @@ const Find = () => {
         <>
             <div id="find__Wrap">
                 <div className="find__header">
-                    <h1>비밀번호 찾기</h1>
-                    <p>아이디와 이메일을 입력하시면,<br />
-                        비밀번호를 찾을 수 있습니다.</p>
+                    <h1>아이디 찾기</h1>
+                    <p>이름과 이메일을 입력하시면,<br />
+                        아이디를 찾을 수 있습니다.</p>
                 </div>
                 <div className="find__main">
                     <div className="find__input_box">
                         <div>
-                            <label htmlFor="youId">아이디</label>
+                            <label htmlFor="youId">이름</label>
                             <input
                                 type="text"
-                                placeholder='아이디를 입력해주세요.'
-                                value={userId}
-                                onChange={(e) => { setUserId(e.currentTarget.value) }}
+                                placeholder='이름을 입력해주세요.'
+                                value={userName}
+                                onChange={(e) => { setUserName(e.currentTarget.value) }}
                             />
                         </div>
                         <div>
@@ -65,7 +65,7 @@ const Find = () => {
                     <div className="find_button_box">
                         <button
                             className='find__button'
-                            onClick={(e) => { FindPass(e) }}
+                            onClick={(e) => { FindId(e) }}
                         >비밀번호 찾기</button>
                         <div>
                             <ul>
@@ -81,4 +81,4 @@ const Find = () => {
     )
 }
 
-export default Find
+export default FindId

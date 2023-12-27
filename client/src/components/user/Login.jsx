@@ -1,6 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Login = () => {
+    const [userId, setUserId] = useState("");
+    const [userPass, setuserPass] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const navigate = useNavigate();
+
+    const onLogin = (e) => {
+        e.preventDefault();
+
+        if (!(userId && userPass)) {
+            return alert("이메일 또는 비밀번호를 채워주세요!")
+        }
+
+        let body = {
+            userId: userId,
+            userPass: userPass
+        }
+
+        axios.post("/api/user/login", body)
+            .then((res) => {
+                console.log(res)
+                if (res.data.success) {
+                    alert("로그인을 완료했습니다.")
+                    navigate('/')
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setErrorMsg("이메일과 비밀번호를 다시 한번 확인해주세요!")
+            })
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setErrorMsg("")
+        }, 5000)
+    }, [errorMsg]);
+
     return (
         <>
             <div id="login__Wrap">
@@ -12,15 +51,34 @@ const Login = () => {
                     <div className="login__input_box">
                         <div>
                             <label htmlFor="youId">아이디</label>
-                            <input type="text" placeholder='이메일을 입력해주세요.' />
+                            <input
+                                type="text"
+                                placeholder='이메일을 입력해주세요.'
+                                id='youId'
+                                value={userId}
+                                onChange={(e) => { setUserId(e.currentTarget.value) }}
+                            />
                         </div>
                         <div>
                             <label htmlFor="youPass">비밀번호</label>
-                            <input type="password" placeholder='비밀번호를 입력해주세요.' />
+                            <input
+                                type="password"
+                                placeholder='비밀번호를 입력해주세요.'
+                                id='password'
+                                value={userPass}
+                                onChange={(e) => { setuserPass(e.currentTarget.value) }}
+                            />
+                        </div>
+                        <div className='errorMsg'>
+                            {errorMsg !== "" && <p>{errorMsg}</p>}
                         </div>
                     </div>
                     <div className="login_button_box">
-                        <a href="./login" className='login__button'>로그인</a>
+                        <button
+                            href="./login"
+                            className='login__button'
+                            onClick={(e) => { onLogin(e) }}
+                        >로그인</button>
                         <div>
                             <ul>
                                 <li>

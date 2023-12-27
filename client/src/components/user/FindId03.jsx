@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Find03 = () => {
+const FindId03 = () => {
     return (
         <>
             <div id="find03__Wrap">
@@ -8,12 +8,12 @@ const Find03 = () => {
                     <div>
                         <div></div>
                     </div>
-                    <h1>비밀번호 찾기 실패</h1>
-                    <p>일치하는 아이디 혹은 이메일 정보가 없습니다.<br />
+                    <h1>아이디 찾기 실패</h1>
+                    <p>일치하는 이름 혹은 이메일 정보가 없습니다.<br />
                         다시 한번 확인해주세요!</p>
                 </div>
                 <div className="find03_button_box">
-                    <a href="./find" className='join__button'>비밀번호 다시 찾기</a>
+                    <a href="./findId" className='join__button'>아이디 다시 찾기</a>
                     <div>
                         <ul>
                             <li>
@@ -32,4 +32,4 @@ const Find03 = () => {
     )
 }
 
-export default Find03
+export default FindId03

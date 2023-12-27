@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
+
+import { useDispatch } from 'react-redux'
+import { loginUser, clearUser } from './reducer/userSlice'
+import firebase from './firebase.js'
+
 import Join01 from './components/user/Join01.jsx'
 import Join02 from './components/user/Join02.jsx'
 import Join03 from './components/user/Join03.jsx'
@@ -14,8 +19,25 @@ import Header from './components/layout/Header.jsx'
 import Home from './page/Home.jsx'
 import CommDetail from './components/community/CommDetail.jsx'
 import CommModify from './components/community/CommModify.jsx'
+import FindId from './components/user/FindId.jsx'
+import FindId02 from './components/user/FindId02.jsx'
+import FindId03 from './components/user/FindId03.jsx'
 
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((userInfo) => {
+      if (userInfo !== null) {
+        console.log("유저 정보입니다.", userInfo.multiFactor.user)
+        dispatch(loginUser(userInfo.multiFactor.user));
+      } else {
+        dispatch(clearUser())
+      }
+    })
+  }, [dispatch]);
+
   return (
     <>
       <Header />
@@ -32,8 +54,12 @@ const App = () => {
         <Route path='/join04' element={<Join04 />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/find' element={<Find />}></Route>
-        <Route path='/find02' element={<Find02 />}></Route>
+        <Route path='/find02/:userId' element={<Find02 />}></Route>
         <Route path='/find03' element={<Find03 />}></Route>
+
+        <Route path='/findId' element={<FindId />}></Route>
+        <Route path='/findId02/:userEmail' element={<FindId02 />}></Route>
+        <Route path='/findId03' element={<FindId03 />}></Route>
       </Routes>
     </>
   )

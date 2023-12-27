@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom';
 
 const Join02 = () => {
+    const [check, setCheck] = useState(false)
     let params = useParams();
+
+    const NextBox = (e) => {
+        if (!check) {
+            alert("이용약관에 동의하지 않으면 가입할 수 없습니다.");
+            e.preventDefault();
+        }
+    };
+
+    const handleClick = (e) => {
+        NextBox(e);
+    };
 
     return (
         <>
@@ -124,12 +136,19 @@ const Join02 = () => {
                         </p>
                     </div>
                     <div className="join_02_box">
-                        <input type="checkbox" />
+                        <input
+                            type="checkbox"
+                            onClick={() => setCheck(!check)}
+                        />
                         <p>모든 약관에 동의합니다</p>
                     </div>
                 </div>
                 <div className="join02_button_box">
-                    <Link to={`/join03/${params.cate}`} className='join__button'>계속(2/3)</Link>
+                    <Link
+                        to={`/join03/${params.cate}`}
+                        className='join__button'
+                        onClick={(e) => handleClick(e)}
+                    >계속(2/3)</Link>
                     <div>
                         <div className="join02__right">
                             <ul>
