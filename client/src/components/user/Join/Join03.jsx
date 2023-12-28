@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import firebase from '../../firebase';
+import firebase from '../../../firebase';
 
 const Join03 = () => {
     let params = useParams();

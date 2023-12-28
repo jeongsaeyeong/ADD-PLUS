@@ -2,11 +2,11 @@ import React from 'react'
 import RepleList from './RepleList'
 import RepleWrite from './RepleWrite'
 
-const RepleArea = () => {
+const RepleArea = (props) => {
     return (
         <>
-            <RepleList />
-            <RepleWrite />
+            <RepleList postInfo={props.postInfo} postId={props.postId} />
+            <RepleWrite postId={props.postId} />
         </>
     )
 }

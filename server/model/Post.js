@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
     {
         postNum: Number,
         emoji: String,
         cate: String,
         title: String,
+        content: String,
         img: String,
         author: {
             type: mongoose.Schema.Types.ObjectId,
@@ -29,9 +30,9 @@ const userSchema = new mongoose.Schema(
         },
         uid: String
     },
-    { collection: "users" }
+    { collection: "posts", timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
+const Post = mongoose.model("Post", postSchema);
 
-module.exports = { User };
+module.exports = { Post };

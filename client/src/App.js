@@ -5,23 +5,30 @@ import { useDispatch } from 'react-redux'
 import { loginUser, clearUser } from './reducer/userSlice'
 import firebase from './firebase.js'
 
-import Join01 from './components/user/Join01.jsx'
-import Join02 from './components/user/Join02.jsx'
-import Join03 from './components/user/Join03.jsx'
-import Join04 from './components/user/Join04.jsx'
+import Join01 from './components/user/Join/Join01.jsx'
+import Join02 from './components/user/Join/Join02.jsx'
+import Join03 from './components/user/Join/Join03.jsx'
+import Join04 from './components/user/Join/Join04.jsx'
+
 import Login from './components/user/Login.jsx'
-import Find from './components/user/Find.jsx'
-import Find02 from './components/user/Find02.jsx'
-import Find03 from './components/user/Find03.jsx'
-import Comm from './components/community/Comm.jsx'
-import CommWrite from './components/community/CommWrite.jsx'
+
+import Find from './components/user/FIndPass/Find.jsx'
+import Find02 from './components/user/FIndPass/Find02.jsx'
+import Find03 from './components/user/FIndPass/Find03.jsx'
+
+import FindId from './components/user/FindId/FindId.jsx'
+import FindId02 from './components/user/FindId/FindId02.jsx'
+import FindId03 from './components/user/FindId/FindId03.jsx'
+
+import Comm from './components/community/Comm/Comm.jsx'
+import CommWrite from './components/community/Comm/CommWrite.jsx'
+
 import Header from './components/layout/Header.jsx'
 import Home from './page/Home.jsx'
-import CommDetail from './components/community/CommDetail.jsx'
-import CommModify from './components/community/CommModify.jsx'
-import FindId from './components/user/FindId.jsx'
-import FindId02 from './components/user/FindId02.jsx'
-import FindId03 from './components/user/FindId03.jsx'
+import CommModify from './components/community/Comm/CommModify.jsx'
+
+
+import CommArea from './components/community/Comm/CommArea.jsx'
 
 const App = () => {
 
@@ -30,7 +37,6 @@ const App = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userInfo) => {
       if (userInfo !== null) {
-        console.log("유저 정보입니다.", userInfo.multiFactor.user)
         dispatch(loginUser(userInfo.multiFactor.user));
       } else {
         dispatch(clearUser())
@@ -45,8 +51,8 @@ const App = () => {
         <Route path='/' element={<Home />}></Route>
         <Route path='/comm' element={<Comm />}></Route>
         <Route path='/commwrite' element={<CommWrite />}></Route>
-        <Route path='/commdetail' element={<CommDetail />}></Route>
-        <Route path='/commmodify' element={<CommModify />}></Route>
+        <Route path='/commdetail/:postNum' element={<CommArea />}></Route>
+        <Route path='/commmodify/:postNum' element={<CommModify />}></Route>
 
         <Route path='/join01' element={<Join01 />}></Route>
         <Route path='/join02/:cate' element={<Join02 />}></Route>
