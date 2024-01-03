@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const reportSchema = new mongoose.Schema(
     {
         postNum: String,
+        cate: String,
         reason: String,
         author: {
             type: mongoose.Schema.Types.ObjectId,

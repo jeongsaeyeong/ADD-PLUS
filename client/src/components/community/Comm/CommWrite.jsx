@@ -3,11 +3,13 @@ import CommSide from './CommSide'
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import CommImg from './CommImg';
 
 const CommWrite = () => {
     const [selectCate, setSeletCate] = useState('일반게시판')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [image, setImage] = useState("");
     const user = useSelector((state) => state.user)
 
     const navigate = useNavigate()
@@ -20,10 +22,6 @@ const CommWrite = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        // switch (selectCate) {
-        //     case '일반게시판':
-        // }
-
         if (title === "" || content === "") {
             return alert("내용을 채워주세요!");
         }
@@ -32,7 +30,8 @@ const CommWrite = () => {
             cate: selectCate,
             title: title,
             content: content,
-            uid: user.uid
+            uid: user.uid,
+            img: image
         }
 
         axios.post("/api/post/write", body)
@@ -94,7 +93,7 @@ const CommWrite = () => {
                                 value={content}
                                 onChange={(e) => setContent(e.currentTarget.value)}
                             ></textarea>
-                            <input type="file" className='file' />
+                            <CommImg setImage={setImage} />
                         </div>
                         <div className='button'>
                             <ul>

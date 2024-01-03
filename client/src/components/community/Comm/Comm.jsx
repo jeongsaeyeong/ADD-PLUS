@@ -5,13 +5,30 @@ import { Link } from 'react-router-dom';
 
 import moment from 'moment'
 import "moment/locale/ko";
+import { useSelector } from 'react-redux';
 
 const Comm = () => {
     const [postList, setPostList] = useState([]);
-    console.log(postList)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [sort, setSort] = useState("인기순")
+    const [active, setActive] = useState('best')
+    const [check, setCheck] = useState(false)
+    const [postId, setPostId] = useState('')
+
+    const user = useSelector((state) => state.user)
 
     useEffect(() => {
-        axios.post("/api/post/list")
+        getpostList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sort])
+
+    const getpostList = () => {
+        let body = {
+            sort: sort,
+            searchTerm: searchTerm,
+        }
+
+        axios.post("/api/post/list", body)
             .then((res) => {
                 if (res.data.success) {
                     setPostList([...res.data.postList]);
@@ -20,7 +37,7 @@ const Comm = () => {
             .catch((err) => {
                 console.log(err);
             })
-    }, [])
+    }
 
     const SetTime = (a, b) => {
         if (a !== b) {
@@ -30,6 +47,30 @@ const Comm = () => {
         }
     }
 
+    const SearchHandeler = () => {
+        getpostList();
+    }
+
+    const onLike = (e) => {
+        e.preventDefault()
+        setCheck(!(check))
+
+        let body = {
+            uid: user.uid,
+            check: check,
+            postId: postId
+        }
+
+        axios.post('/api/post/like', body)
+            .then((res) => {
+                if (res.data.success) {
+                    alert("좋아요 완료되었습니다.");
+                } else {
+                    alert("좋아요 실패하였습니다.");
+                }
+            })
+    }
+
     return (
         <>
             <div className="comm__Wrap">
@@ -37,13 +78,26 @@ const Comm = () => {
                 <div className='main'>
                     <div className="comm__top">
                         <div className="comm_tab">
-                            <ul>
-                                <li className='main-tab active'>인기</li>
-                                <li className='main-tab'>최신</li>
-                            </ul>
+                            <div>
+                                <button
+                                    className={`main-tab ${active === 'best' ? 'active' : ''} `}
+                                    onClick={() => { setSort('인기순'); setActive('best') }}
+                                >인기</button>
+                                <button
+                                    className={`main-tab ${active === 'latest' ? 'active' : ''} `}
+                                    onClick={() => { setSort('최신순'); setActive('latest') }}
+                                >최신</button>
+                            </div>
                         </div>
                         <div className="comm__search">
-                            <input type="text" className='search' />
+                            <input
+                                type="text"
+                                className='search'
+                                onChange={(e) => setSearchTerm(e.currentTarget.value)}
+                                onKeyDown={(e) => {
+                                    if (e.keyCode === 13) SearchHandeler();
+                                }}
+                            />
                             <ul>
                                 <Link to="/commwrite"><li>글쓰기</li></Link>
                             </ul>
@@ -55,7 +109,10 @@ const Comm = () => {
                                 <div className='box'>
                                     <div className='emoji'>
                                         <div className='emoticon'></div>
-                                        <div className="like__btn"></div>
+                                        <button
+                                            className="like__btn"
+                                            onClick={(e) => { onLike(e); setPostId(post._id) }}
+                                        ></button>
                                     </div>
                                     <div className="comm__header">
                                         <div className="cate">{post.cate}</div>
@@ -70,7 +127,7 @@ const Comm = () => {
                                     <div>
                                         <div className="watch">
                                             <div></div>
-                                            <p>54</p>
+                                            <p>{post.veiwNum}</p>
                                         </div>
                                         <div className="like">
                                             <div></div>

@@ -59,7 +59,7 @@ const CommButton = (props) => {
                     >삭제</button>
                     <button
                         onClick={() => { setNone(!(none)) }}
-                    >신고하기</button>
+                    >신고</button>
                 </div>
             </div>
             <CommReport none={none} onNoneChange={handleNoneChange} />

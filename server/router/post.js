@@ -5,6 +5,10 @@ const router = express.Router();
 const { Post } = require("../model/Post.js");
 const { Counter } = require("../model/Counter.js");
 const { User } = require("../model/User.js");
+const { Like } = require("../model/Like.js");
+
+// 이미지 업로드
+const setUpload = require("../util/upload.js");
 
 // 글 쓰기
 router.post("/write", (req, res) => {
@@ -12,6 +16,7 @@ router.post("/write", (req, res) => {
         cate: req.body.cate,
         title: req.body.title,
         content: req.body.content,
+        img: req.body.img,
     };
 
     Counter.findOne({ name: "counter" })
@@ -42,18 +47,32 @@ router.post("/write", (req, res) => {
 
 // 글 전체 리스트
 router.post("/list", (req, res) => {
+    let sort = {};
+
+    if (req.body.sort === "최신순") {
+        sort = { createdAt: -1 };
+    } else {
+        sort = { repleNum: -1 };
+    }
+
     Post
-        .find()
+        .find({
+            $or: [
+                { title: { $regex: req.body.searchTerm, $options: 'i' } },
+                { content: { $regex: req.body.searchTerm, $options: 'i' } },
+            ]
+        })
+        .sort(sort) // 정렬 조건 적용
         .populate("author")
         .exec()
         .then((result) => {
-            res.status(200).json({ success: true, postList: result })
+            res.status(200).json({ success: true, postList: result });
         })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
             res.status(400).json({ success: false });
-        })
-})
+        });
+});
 
 // 글 상세페이지
 router.post("/detail", (req, res) => {
@@ -85,7 +104,6 @@ router.post("/delete", (req, res) => {
 })
 
 // 글 수정 
-
 router.post("/modify", (req, res) => {
     let temp = {
         cate: req.body.cate,
@@ -102,5 +120,45 @@ router.post("/modify", (req, res) => {
             res.status(400).json({ success: false });
         })
 })
+
+// 글 조회수 
+router.post("/increase", (req, res) => {
+    Post.updateOne({ _id: req.body.postId }, { $inc: { veiwNum: 1 } })
+        .exec()
+        .then(() => {
+            res.status(200).json({ success: true });
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(400).json({ success: false });
+        })
+})
+
+router.post("/like", (req, res) => {
+
+    Post.findOne({ _id: req.body.postId })
+        .then()
+
+    if (req.body.check) {
+        Post.updateOne({ _id: req.body.postId }, { $inc: { veiwNum: 1 } })
+            .exec()
+            .then(() => {
+                res.status(200).json({ success: true });
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(400).json({ success: false });
+            })
+    }
+
+
+})
+
+// 이미지 업로드
+router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {
+    // console.log(res.req);
+    res.status(200).json({ success: true, filePath: res.req.file.location })
+})
+
 
 module.exports = router;

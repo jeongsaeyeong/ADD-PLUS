@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CommSide from './CommSide'
 import Fire from '../../../assets/img/icon_fire.svg'
 import Eye from '../../../assets/img/icon_eye_empty.svg'
@@ -9,8 +9,27 @@ import RepleArea from '../Reple/RepleArea'
 
 import moment from 'moment'
 import "moment/locale/ko";
+import axios from 'axios'
 
 const CommDetail = (props) => {
+
+    console.log(props.postInfo._id)
+
+    let body = {
+        postId: props.postInfo._id
+    }
+
+    const increaseViews = () => {
+        axios.post('/api/post/increase', body)
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        increaseViews();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const SetTime = (a, b) => {
         if (a !== b) {
@@ -60,7 +79,7 @@ const CommDetail = (props) => {
                             <p>
                                 {props.postInfo.content}
                             </p>
-                            <img src="/" alt="art" />
+                            {props.postInfo.img ? <img src={props.postInfo.img} alt={props.postInfo.title} /> : null}
                         </div>
                     </div>
                     <RepleArea postInfo={props.postInfo} postId={props.postInfo._id} />
