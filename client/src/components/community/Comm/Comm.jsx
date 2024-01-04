@@ -5,17 +5,13 @@ import { Link } from 'react-router-dom';
 
 import moment from 'moment'
 import "moment/locale/ko";
-import { useSelector } from 'react-redux';
 
 const Comm = () => {
     const [postList, setPostList] = useState([]);
     const [searchTerm, setSearchTerm] = useState("")
     const [sort, setSort] = useState("인기순")
     const [active, setActive] = useState('best')
-    const [check, setCheck] = useState(false)
-    const [postId, setPostId] = useState('')
-
-    const user = useSelector((state) => state.user)
+    const [cate, setCate] = useState('일반게시판')
 
     useEffect(() => {
         getpostList();
@@ -26,6 +22,7 @@ const Comm = () => {
         let body = {
             sort: sort,
             searchTerm: searchTerm,
+            cate: cate
         }
 
         axios.post("/api/post/list", body)
@@ -39,42 +36,23 @@ const Comm = () => {
             })
     }
 
-    const SetTime = (a, b) => {
-        if (a !== b) {
-            return moment(b).format("YYYY MMM Do") + "(수정됨)";
-        } else {
-            return moment(b).format("YYYY MMM Do")
-        }
+    const SetTime = (a) => {
+        return moment(a).format("YYYY MMM Do");
     }
 
     const SearchHandeler = () => {
         getpostList();
     }
 
-    const onLike = (e) => {
-        e.preventDefault()
-        setCheck(!(check))
-
-        let body = {
-            uid: user.uid,
-            check: check,
-            postId: postId
-        }
-
-        axios.post('/api/post/like', body)
-            .then((res) => {
-                if (res.data.success) {
-                    alert("좋아요 완료되었습니다.");
-                } else {
-                    alert("좋아요 실패하였습니다.");
-                }
-            })
-    }
+    useEffect(() => {
+        getpostList()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cate])
 
     return (
         <>
             <div className="comm__Wrap">
-                <CommSide />
+                <CommSide setCate={setCate} />
                 <div className='main'>
                     <div className="comm__top">
                         <div className="comm_tab">
@@ -109,10 +87,10 @@ const Comm = () => {
                                 <div className='box'>
                                     <div className='emoji'>
                                         <div className='emoticon'></div>
-                                        <button
-                                            className="like__btn"
-                                            onClick={(e) => { onLike(e); setPostId(post._id) }}
-                                        ></button>
+                                        <button className="like__btn"
+                                        // onClick={(e) => { setPostId(post._id); handleClick(e) }}
+                                        >
+                                        </button>
                                     </div>
                                     <div className="comm__header">
                                         <div className="cate">{post.cate}</div>
@@ -131,10 +109,10 @@ const Comm = () => {
                                         </div>
                                         <div className="like">
                                             <div></div>
-                                            <p>987</p>
+                                            <p>{post.likeNum}</p>
                                         </div>
                                     </div>
-                                    <div className="date">{SetTime(post.createdAt, post.updatedAt)}</div>
+                                    <div className="date">{SetTime(post.createdAt)}</div>
                                 </div>
                             </div>)
                         })}

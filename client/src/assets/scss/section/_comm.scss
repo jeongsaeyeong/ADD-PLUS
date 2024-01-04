@@ -1,7 +1,7 @@
 .comm__Wrap {
     display: flex;
     flex-wrap: wrap;
-    height: 100vh;
+    height: inherit;
 
     .nav {
         width: 15%;
@@ -25,11 +25,14 @@
             margin-top: 30px;
             background-color: var(--white);
 
-            li {
-                text-align: left;
+            button {
+                width: 100%;
+                text-align: center;
                 padding: 15px 30px 12px;
                 display: flex;
                 align-items: center;
+                justify-content: center;
+                background-color: var(--white);
 
                 div {
                     margin-right: 5px;
@@ -159,6 +162,7 @@
             padding-top: 20px;
             display: flex;
             flex-wrap: wrap;
+            min-height: 60vh;
 
             .comm__box {
                 width: 32%;
@@ -195,9 +199,11 @@
                             background-size: cover;
                             background-position: center center;
                             background-repeat: no-repeat;
-                            background-image: url(../../img/icon_heart.svg);
                         }
 
+                        .like__btn.liked {
+                            background-color: red;
+                        }
                     }
 
                     .comm__header {
@@ -341,7 +347,8 @@
 
     .comm__write {
         padding: 3% 10%;
-        width: 85%;
+        width: 70%;
+        margin: 0 auto;
 
         .wirte__header {
             display: flex;
@@ -453,6 +460,7 @@
     .comm__detail {
         padding: 3% 10%;
         width: 85%;
+        margin: 0 auto;
 
         .detail__header {
             display: flex;
@@ -505,6 +513,10 @@
                         display: flex;
                         margin-top: 10px;
                         align-items: center;
+
+                        button {
+                            background-color: #00000000;
+                        }
 
                         img {
                             width: 20px;

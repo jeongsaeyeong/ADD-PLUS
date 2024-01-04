@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
-import CommSide from './CommSide'
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import CommImg from './CommImg';
 
-const CommWrite = () => {
+const CommWrite = ({ setCate }) => {
+    console.log(setCate)
+
     const [selectCate, setSeletCate] = useState('일반게시판')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [image, setImage] = useState("");
     const user = useSelector((state) => state.user)
+    console.log(user)
 
     const navigate = useNavigate()
 
@@ -48,7 +50,6 @@ const CommWrite = () => {
     return (
         <>
             <div className="comm__Wrap">
-                <CommSide />
                 <div className="comm__write">
                     <div className="wirte__header">
                         <h2>커뮤니티 글 작성</h2>

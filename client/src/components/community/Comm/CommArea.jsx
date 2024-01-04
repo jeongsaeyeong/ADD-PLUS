@@ -16,7 +16,6 @@ const CommArea = () => {
 
         axios.post('/api/post/detail', body)
             .then((res) => {
-                console.log(res);
                 setPostInfo(res.data.post);
                 setFlag(true);
             })

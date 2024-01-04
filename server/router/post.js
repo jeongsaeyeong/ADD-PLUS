@@ -45,7 +45,7 @@ router.post("/write", (req, res) => {
         })
 })
 
-// 글 전체 리스트
+// 글 리스트
 router.post("/list", (req, res) => {
     let sort = {};
 
@@ -57,9 +57,14 @@ router.post("/list", (req, res) => {
 
     Post
         .find({
-            $or: [
-                { title: { $regex: req.body.searchTerm, $options: 'i' } },
-                { content: { $regex: req.body.searchTerm, $options: 'i' } },
+            $and: [
+                {
+                    $or: [
+                        { title: { $regex: req.body.searchTerm, $options: 'i' } },
+                        { content: { $regex: req.body.searchTerm, $options: 'i' } },
+                    ]
+                },
+                { cate: req.body.cate }
             ]
         })
         .sort(sort) // 정렬 조건 적용
@@ -135,15 +140,31 @@ router.post("/increase", (req, res) => {
 })
 
 router.post("/like", (req, res) => {
-
-    Post.findOne({ _id: req.body.postId })
-        .then()
-
     if (req.body.check) {
-        Post.updateOne({ _id: req.body.postId }, { $inc: { veiwNum: 1 } })
-            .exec()
+        const PostLike = new Like(req.body);
+        PostLike
+            .save()
             .then(() => {
-                res.status(200).json({ success: true });
+                Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: 1 } }).then(() => {
+                    res.status(200).json({ success: true });
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(400).json({ success: false });
+            })
+    } else {
+        Like.findOne({ postId: req.body.postId })
+            .then((result) => {
+                if (result) {
+                    Like.deleteOne({ uid: req.body.uid }, { check: req.body.check })
+                        .exec()
+                        .then(() => {
+                            Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: -1 } }).then(() => {
+                                res.status(200).json({ success: true });
+                            })
+                        })
+                }
             })
             .catch((err) => {
                 console.log(err)
@@ -151,7 +172,24 @@ router.post("/like", (req, res) => {
             })
     }
 
+})
 
+// 좋아요 정보 찾기 
+
+
+router.post("/likedetail", (req, res) => {
+    Like.findOne({ postId: req.body.postId, uid: req.body.uid })
+        .then((likeInfo) => {
+            Post.findOne({ _id: req.body.postId })
+                .then((postInfo) => {
+                    return res.status(200).json({ success: true, likeInfo: likeInfo, postInfo: postInfo })
+                })
+
+        })
+        .catch((err) => {
+            console.log(err)
+            return res.status(400).json({ success: false })
+        })
 })
 
 // 이미지 업로드
