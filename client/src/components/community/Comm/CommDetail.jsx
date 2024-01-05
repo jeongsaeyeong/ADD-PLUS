@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Fire from '../../../assets/img/icon_fire.svg'
 import Eye from '../../../assets/img/icon_eye_empty.svg'
 import comment from '../../../assets/img/icon_comment.svg'
@@ -11,12 +11,9 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 
 const CommDetail = (props) => {
-    const [Isactive, setIsactive] = useState(false)
-    const [check, setCheck] = useState(false)
-
-    const [likeInfo, setLikeInfo] = useState('')
-
+    const [checkLike, setCheckLike] = useState(false)
     const user = useSelector((state) => state.user)
+    const [getLike, setGetLike] = useState(false)
 
     const increaseViews = () => {
         let body = {
@@ -29,49 +26,48 @@ const CommDetail = (props) => {
             })
     }
 
-    const onLike = () => {
-        setIsactive(!(Isactive))
-        setCheck(!(check))
+    const onLike = async (e) => {
+        e.preventDefault();
+        setCheckLike((prevCheckLike) => !prevCheckLike);
 
-        let body = {
+        const body = {
             uid: user.uid,
-            check: check,
-            postId: props.postInfo._id
-        }
-
-        axios.post('/api/post/like', body)
-            .then((res) => {
-                getLike();
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
-    }
-
-    const getLike = useCallback(() => {
-        let body = {
-            uid: user.uid,
+            delete: !checkLike,
             postId: props.postInfo._id
         };
 
-        axios.post('/api/post/likedetail', body)
-            .then((res) => {
-                if (res.data.success) {
-                    props.postInfo.likeNum = res.data.postInfo.likeNum
-                    setLikeInfo(res.data.likeInfo);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user.uid, props.postInfo._id, props.postInfo]);
+        try {
+            if (!checkLike) {
+                await axios.post('/api/post/likeinsert', body);
+            } else {
+                await axios.post('/api/post/likedelete', body);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     useEffect(() => {
-        getLike();
-    }, [])
+        const findLike = async () => {
+            try {
+                let body = {
+                    uid: user.uid,
+                    postId: props.postInfo._id
+                };
+
+                const response = await axios.post('/api/post/likefind', body);
+                if (response.data.likeInfo.delete) {
+                    setGetLike(response.data.likeInfo.delete);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        findLike(); // 최초 렌더링 시에도 호출
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [onLike]);
 
     useEffect(() => {
         increaseViews();
@@ -115,12 +111,12 @@ const CommDetail = (props) => {
                                     <p>{props.postInfo.repleNum}</p>
                                 </div>
                                 <div>
-                                    <button onClick={() => { onLike() }}>
+                                    <button onClick={(e) => { onLike(e); }}>
                                         <svg
-                                            width="25"
-                                            height="23"
+                                            width="22"
+                                            height="20"
                                             viewBox="0 0 25 23"
-                                            fill={likeInfo !== null ? 'red' : 'none'}
+                                            fill={checkLike ? 'red' : 'none'}
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <path

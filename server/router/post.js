@@ -9,6 +9,7 @@ const { Like } = require("../model/Like.js");
 
 // 이미지 업로드
 const setUpload = require("../util/upload.js");
+const { trusted } = require("mongoose");
 
 // 글 쓰기
 router.post("/write", (req, res) => {
@@ -139,58 +140,66 @@ router.post("/increase", (req, res) => {
         })
 })
 
-router.post("/like", (req, res) => {
-    if (req.body.check) {
-        const PostLike = new Like(req.body);
-        PostLike
-            .save()
-            .then(() => {
-                Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: 1 } }).then(() => {
-                    res.status(200).json({ success: true });
-                })
-            })
-            .catch((err) => {
-                console.log(err)
-                res.status(400).json({ success: false });
-            })
-    } else {
-        Like.findOne({ postId: req.body.postId })
-            .then((result) => {
-                if (result) {
-                    Like.deleteOne({ uid: req.body.uid }, { check: req.body.check })
-                        .exec()
-                        .then(() => {
-                            Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: -1 } }).then(() => {
+// 좋아요 관리
+router.post("/likeinsert", (req, res) => {
+
+    Like.findOne({ uid: req.body.uid, postId: req.body.postId })
+        .exec()
+        .then((result) => {
+            if (result) {
+            } else {
+                const LikeInsert = new Like(req.body);
+                LikeInsert.save()
+                    .then(() => {
+                        Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: 1 } })
+                            .exec()
+                            .then(() => {
                                 res.status(200).json({ success: true });
                             })
-                        })
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                res.status(400).json({ success: false });
-            })
-    }
+
+                    })
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({ success: false });
+        });
+
 
 })
 
-// 좋아요 정보 찾기 
-
-
-router.post("/likedetail", (req, res) => {
-    Like.findOne({ postId: req.body.postId, uid: req.body.uid })
-        .then((likeInfo) => {
-            Post.findOne({ _id: req.body.postId })
-                .then((postInfo) => {
-                    return res.status(200).json({ success: true, likeInfo: likeInfo, postInfo: postInfo })
+router.post("/likedelete", (req, res) => {
+    Like.deleteOne({ postId: req.body.postId, uid: req.body.uid })
+        .then(() => {
+            Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: -1 } })
+                .exec()
+                .then(() => {
+                    res.status(200).json({ success: true });
                 })
+                .catch((err) => {
+                    console.log(err)
+                    res.status(400).json({ success: false });
+                })
+        })
+})
 
+router.post("/likefind", (req, res) => {
+    Like.findOne({ postId: req.body.postId, uid: req.body.uid })
+        .exec()
+        .then((likeInfo) => {
+            if (likeInfo) {
+                console.log(likeInfo)
+                return res.status(200).json({ success: true, likeInfo: likeInfo })
+            } else {
+                return res.status(200).json({ success: true })
+            }
         })
         .catch((err) => {
             console.log(err)
             return res.status(400).json({ success: false })
         })
 })
+
 
 // 이미지 업로드
 router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {

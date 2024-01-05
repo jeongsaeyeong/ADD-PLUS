@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const likeSchema = new mongoose.Schema(
     {
         uid: String,
-        check: {
+        delete: {
             type: Boolean,
             default: false,
         },
