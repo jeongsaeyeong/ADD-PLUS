@@ -1,7 +1,7 @@
 .comm__Wrap {
     display: flex;
     flex-wrap: wrap;
-    height: inherit;
+    height: 100vh;
 
     .nav {
         width: 15%;
@@ -162,7 +162,7 @@
             padding-top: 20px;
             display: flex;
             flex-wrap: wrap;
-            min-height: 60vh;
+            min-height: 80vh;
 
             .comm__box {
                 width: 32%;
@@ -315,12 +315,13 @@
             justify-content: center;
             align-items: center;
 
-            li {
+            button {
                 margin-right: 30px;
+                background-color: #00000000;
+            }
 
-                .active {
-                    color: var(--primary-color);
-                }
+            .active {
+                color: var(--primary-color);
             }
 
             .left {
@@ -331,6 +332,7 @@
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-image: url(../../img/icon_left.svg);
+                margin-right: 30px;
             }
 
             .right {
@@ -515,6 +517,7 @@
                         align-items: center;
 
                         button {
+                            margin-top: 3px;
                             background-color: #00000000;
                         }
 

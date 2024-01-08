@@ -10,6 +10,10 @@ const CommArea = () => {
     let params = useParams();
 
     useEffect(() => {
+        GetPost();
+    }, [params.postNum]);
+
+    const GetPost = () => {
         let body = {
             postNum: params.postNum
         }
@@ -22,13 +26,13 @@ const CommArea = () => {
             .catch((err) => {
                 console.log(err)
             })
-    }, [params.postNum]);
+    }
 
     return (
         <>
             {flag ? (
                 <>
-                    <CommDetail postInfo={postInfo} postNum={params.postNum} />
+                    <CommDetail postInfo={postInfo} postNum={params.postNum} GetPost={GetPost} />
                 </>
             ) : (
                 <div>

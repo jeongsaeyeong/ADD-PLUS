@@ -13,6 +13,16 @@ const CommSide = ({ setCate }) => {
                 <h2>ADD COMM</h2>
                 <ul>
                     <button
+                        className={category === '일반게시판' ? 'active' : ''}
+                        onClick={() => {
+                            setCate('일반게시판')
+                            handlebutton('일반게시판')
+                        }}
+                    >
+                        <div className='smile'></div>
+                        일반 게시판
+                    </button>
+                    <button
                         className={category === 'Hot게시판' ? 'active' : ''}
                         onClick={() => {
                             setCate('Hot게시판')
@@ -52,16 +62,7 @@ const CommSide = ({ setCate }) => {
                         <div className='pencil'></div>
                         수험생 게시판
                     </button>
-                    <button
-                        className={category === '일반게시판' ? 'active' : ''}
-                        onClick={() => {
-                            setCate('일반게시판')
-                            handlebutton('일반게시판')
-                        }}
-                    >
-                        <div className='smile'></div>
-                        일반 게시판
-                    </button>
+
                     <button
                         className={category === '홍보게시판' ? 'active' : ''}
                         onClick={() => {

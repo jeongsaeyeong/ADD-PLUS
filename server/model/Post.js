@@ -28,7 +28,11 @@ const postSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-        uid: String
+        uid: String,
+        likeid: {
+            type: Array,
+            default: ''
+        }
     },
     { collection: "posts", timestamps: true }
 );

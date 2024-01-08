@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,9 +21,67 @@ import main_point from '../assets/img/main_point.png'
 
 import { LuEye } from "react-icons/lu";
 import { FaRegHeart } from "react-icons/fa";
+import axios from 'axios';
+import moment from 'moment';
 
 
 const Home = () => {
+    const [postList, setPostList] = useState([])
+    const [Today, setToday] = useState(0)
+    const [Top, setTop] = useState([])
+
+    // 추천 게시글
+    const getPost = () => {
+        axios.post('/api/home/post')
+            .then((res) => {
+                setPostList([...res.data.postList]);
+                console.log(postList)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    // 오늘 올라온 게시글
+    const TodayPost = () => {
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+
+        let body = {
+            createdAt: formattedDate,
+        }
+
+        axios.post('/api/home/today', body)
+            .then((res) => {
+                setToday(res.data.todayList.length)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    // 명예의 전당 글 
+    const TopPost = () => {
+        axios.post('/api/home/top')
+            .then((res) => {
+                setTop([...res.data.topList]);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+
+    useEffect(() => {
+        getPost();
+        TodayPost();
+        TopPost();
+    }, []);
+
+    const SetTime = (a) => {
+        return moment(a).format("YYYY MMM Do");
+    }
+
     return (
         <main id="main" role='main'>
             <div id="slider" role='slider' aria-valuenow="0">
@@ -70,90 +128,50 @@ const Home = () => {
                 <div id="main__left">
                     <div className="main__comm__best">
                         <h3 className='main__comm__title'>ADD <span>추천 게시글</span></h3>
-                        <div className="main__comm">
-                            <div className="main__comm__info">
-                                <div className="comm__like">
-                                    <div className="emoz">😍</div>
-                                    <div className="like__button">
-                                        <Link to='/'><img src={heartImg} alt="like button" /></Link>
+                        {postList.map((post, key) => {
+                            return (<div className="main__comm" key={key}>
+                                <div className="main__comm__info">
+                                    <div className="comm__like">
+                                        <div className="emoz">😍</div>
+                                        <div className="like__button">
+                                        </div>
+                                    </div>
+                                    <div className="comm__header">
+                                        <div className="category">
+                                            <span className='cate_1'>{post.cate}</span>
+                                        </div>
+                                        <h4 className="comm__title"><Link to={`/commdetail/${post.postNum}`}>{post.title}</Link></h4>
+                                    </div>
+                                    <div className="comm__info">
+                                        <span>
+                                            {post.content}
+                                        </span>
+                                    </div>
+                                    <div className="comm__nickname">
+                                        <span>{post.author.userCate}</span>
                                     </div>
                                 </div>
-                                <div className="comm__header">
-                                    <div className="category">
-                                        <span className='cate_1'>HOT</span>
+                                <div className="main__comm__view">
+                                    <div className="comm__left">
+                                        <div className="comm__view">
+                                            <LuEye />
+                                            <span>{post.veiwNum}</span>
+                                        </div>
+                                        <div className="comm__like__view">
+                                            <FaRegHeart />
+                                            <span>{post.likeNum}</span>
+                                        </div>
                                     </div>
-                                    <h4 className="comm__title"><Link to=''>입시어쩌고 저쩌고</Link></h4>
-                                </div>
-                                <div className="comm__info">
-                                    <span>
-                                        면접에서 보통 1분 자기소개를 하라고 합니다.
-                                        간단명료하게 요약하여 소개할 수 있는 문장을 만들어줘요.
-                                    </span>
-                                </div>
-                                <div className="comm__nickname">
-                                    <span>dbwls8151</span>
-                                </div>
-                            </div>
-                            <div className="main__comm__view">
-                                <div className="comm__left">
-                                    <div className="comm__view">
-                                        <LuEye />
-                                        <span>54</span>
-                                    </div>
-                                    <div className="comm__like__view">
-                                        <FaRegHeart />
-                                        <span>987</span>
-                                    </div>
-                                </div>
-                                <div className="comm__right">
-                                    <div className="comm__date">
-                                        <span>2023.12.06</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="main__comm">
-                            <div className="main__comm__info">
-                                <div className="comm__like">
-                                    <div className="emoz">🙄</div>
-                                    <div className="like__button">
-                                        <Link to='/'><img src={heartImg} alt="like button" /></Link>
-                                    </div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="category">
-                                        <span className='cate_2'>입시결과</span>
-                                    </div>
-                                    <h4 className="comm__title"><Link to=''>입시어쩌고 저쩌고</Link></h4>
-                                </div>
-                                <div className="comm__info">
-                                    <span>
-                                        면접에서 보통 1분 자기소개를 하라고 합니다.
-                                        간단명료하게 요약하여 소개할 수 있는 문장을 만들어줘요.
-                                    </span>
-                                </div>
-                                <div className="comm__nickname">
-                                    <span>dbwls8151</span>
-                                </div>
-                            </div>
-                            <div className="main__comm__view">
-                                <div className="comm__left">
-                                    <div className="comm__view">
-                                        <LuEye />
-                                        <span>54</span>
-                                    </div>
-                                    <div className="comm__like__view">
-                                        <FaRegHeart />
-                                        <span>987</span>
-                                    </div>
-                                </div>
-                                <div className="comm__right">
-                                    <div className="comm__date">
-                                        <span>2023.12.06</span>
+                                    <div className="comm__right">
+                                        <div className="comm__date">
+                                            <span>{SetTime(post.createdAt)}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            )
+                        })}
+
                     </div>
                     <div className="main__ad">
                         <a href="/"><img src={main_middle_ad} alt="중간 광고" /></a>
@@ -209,154 +227,55 @@ const Home = () => {
                         <h3>ADD <span>TODAY</span></h3>
                         <div className="today__box">
                             <span className='today__box__left'>오늘 올라온 글</span>
-                            <span className='today__box__right'>165</span>
+                            <span className='today__box__right'>{Today}</span>
                         </div>
-                        <Link to="/" className='comm__link'>게시글 보러가기 &gt;</Link>
+                        <Link to="/comm" className='comm__link'>게시글 보러가기 &gt;</Link>
                     </div>
 
                     <div className="comm__HOF">
                         <h3 className='comm__HOF__title'>ADD <span>명예의 전당</span></h3>
-                        <div className="comm__HOF__box">
-                            <div className="main__comm__info">
-                                <div className="comm__HOF__header">
-                                    <div className="comm__HOF__emoz">😍</div>
-                                    <div className="comm__HOF__cate">
-                                        <span className='cate_3'>수험생</span>
+                        {Top.map((top, key) => {
+                            return (
+                                <div className="comm__HOF__box" key={key}>
+                                    <div className="main__comm__info">
+                                        <div className="comm__HOF__header">
+                                            <div className="comm__HOF__emoz">😍</div>
+                                            <div className="comm__HOF__cate">
+                                                <span className='cate_3'>{top.cate}</span>
+                                            </div>
+                                            <h4 className="comm__HOF__title"><Link to={`/commdetail/${top.postNum}`}>{top.title}</Link></h4>
+                                        </div>
+                                        <div className="comm__HOF__info">
+                                            <span>
+                                                {top.content}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <h4 className="comm__HOF__title"><Link to=''>입시어쩌고 저쩌고</Link></h4>
-                                </div>
-                                <div className="comm__HOF__info">
-                                    <span>
-                                        면접에서 보통 1분 자기소개를 하라고 합니다.
-                                        간단명료하게 요약하여 소개할 수 있는 문장을 만들어줘요.
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="main__HOF__view">
-                                <div className="HOF__left">
-                                    <div className="HOF__view">
-                                        <LuEye />
-                                        <span>54</span>
-                                    </div>
-                                    <div className="HOF__like__view">
-                                        <FaRegHeart />
-                                        <span>987</span>
-                                    </div>
-                                </div>
-                                <div className="HOF__right">
-                                    <div className="HOF__nickname">
-                                        <span>dbwls8151</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="comm__HOF__box">
-                            <div className="main__comm__info">
-                                <div className="comm__HOF__header">
-                                    <div className="comm__HOF__emoz">😍</div>
-                                    <div className="comm__HOF__cate">
-                                        <span className='cate_3'>수험생</span>
-                                    </div>
-                                    <h4 className="comm__HOF__title"><Link to=''>입시어쩌고 저쩌고</Link></h4>
-                                </div>
-                                <div className="comm__HOF__info">
-                                    <span>
-                                        면접에서 보통 1분 자기소개를 하라고 합니다.
-                                        간단명료하게 요약하여 소개할 수 있는 문장을 만들어줘요.
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="main__HOF__view">
-                                <div className="HOF__left">
-                                    <div className="HOF__view">
-                                        <LuEye />
-                                        <span>54</span>
-                                    </div>
-                                    <div className="HOF__like__view">
-                                        <FaRegHeart />
-                                        <span>987</span>
+                                    <div className="main__HOF__view">
+                                        <div className="HOF__left">
+                                            <div className="HOF__view">
+                                                <LuEye />
+                                                <span>{top.veiwNum}</span>
+                                            </div>
+                                            <div className="HOF__like__view">
+                                                <FaRegHeart />
+                                                <span>{top.likeNum}</span>
+                                            </div>
+                                        </div>
+                                        <div className="HOF__right">
+                                            <div className="HOF__nickname">
+                                                <span>{top.author.userCate}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="HOF__right">
-                                    <div className="HOF__nickname">
-                                        <span>dbwls8151</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="comm__HOF__box">
-                            <div className="main__comm__info">
-                                <div className="comm__HOF__header">
-                                    <div className="comm__HOF__emoz">😍</div>
-                                    <div className="comm__HOF__cate">
-                                        <span className='cate_3'>수험생</span>
-                                    </div>
-                                    <h4 className="comm__HOF__title"><Link to=''>입시어쩌고 저쩌고</Link></h4>
-                                </div>
-                                <div className="comm__HOF__info">
-                                    <span>
-                                        면접에서 보통 1분 자기소개를 하라고 합니다.
-                                        간단명료하게 요약하여 소개할 수 있는 문장을 만들어줘요.
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="main__HOF__view">
-                                <div className="HOF__left">
-                                    <div className="HOF__view">
-                                        <LuEye />
-                                        <span>54</span>
-                                    </div>
-                                    <div className="HOF__like__view">
-                                        <FaRegHeart />
-                                        <span>987</span>
-                                    </div>
-                                </div>
-                                <div className="HOF__right">
-                                    <div className="HOF__nickname">
-                                        <span>dbwls8151</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="comm__HOF__box">
-                            <div className="main__comm__info">
-                                <div className="comm__HOF__header">
-                                    <div className="comm__HOF__emoz">😍</div>
-                                    <div className="comm__HOF__cate">
-                                        수험생
-                                    </div>
-                                    <h4 className="comm__HOF__title"><Link to=''>입시어쩌고 저쩌고</Link></h4>
-                                </div>
-                                <div className="comm__HOF__info">
-                                    <span>
-                                        면접에서 보통 1분 자기소개를 하라고 합니다.
-                                        간단명료하게 요약하여 소개할 수 있는 문장을 만들어줘요.
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="main__HOF__view">
-                                <div className="HOF__left">
-                                    <div className="HOF__view">
-                                        <LuEye />
-                                        <span>54</span>
-                                    </div>
-                                    <div className="HOF__like__view">
-                                        <FaRegHeart />
-                                        <span>987</span>
-                                    </div>
-                                </div>
-                                <div className="HOF__right">
-                                    <div className="HOF__nickname">
-                                        <span>dbwls8151</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            )
+                        })}
 
                     </div>
                 </div>
             </div>
-        </main>
+        </main >
     )
 }
 

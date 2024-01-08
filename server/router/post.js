@@ -141,65 +141,60 @@ router.post("/increase", (req, res) => {
 })
 
 // 좋아요 관리
+router.post("/likedelete", (req, res) => {
+    Post.updateOne(
+        { _id: req.body.postId },
+        { $pull: { likeid: req.body.uid }, $inc: { likeNum: -1 } }
+    )
+        .then(() => {
+            res.status(200).json({ success: true });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(400).json({ success: false });
+        });
+});
+
 router.post("/likeinsert", (req, res) => {
-
-    Like.findOne({ uid: req.body.uid, postId: req.body.postId })
-        .exec()
-        .then((result) => {
-            if (result) {
+    Post.findOne({ _id: req.body.postId, likeid: req.body.uid })
+        .then(existingLike => {
+            if (existingLike) {
+                res.status(200).json({ success: true });
             } else {
-                const LikeInsert = new Like(req.body);
-                LikeInsert.save()
+                const newLike = new Like(req.body);
+                newLike.save()
                     .then(() => {
-                        Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: 1 } })
-                            .exec()
-                            .then(() => {
-                                res.status(200).json({ success: true });
-                            })
-
+                        return Post.updateOne(
+                            { _id: req.body.postId },
+                            { $addToSet: { likeid: req.body.uid }, $inc: { likeNum: 1 } }
+                        );
+                    })
+                    .then(() => {
+                        res.status(200).json({ success: true });
                     })
             }
         })
-        .catch((err) => {
-            console.log(err);
-            res.status(400).json({ success: false });
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
         });
+});
 
-
-})
-
-router.post("/likedelete", (req, res) => {
-    Like.deleteOne({ postId: req.body.postId, uid: req.body.uid })
-        .then(() => {
-            Post.updateOne({ _id: req.body.postId }, { $inc: { likeNum: -1 } })
-                .exec()
-                .then(() => {
-                    res.status(200).json({ success: true });
-                })
-                .catch((err) => {
-                    console.log(err)
-                    res.status(400).json({ success: false });
-                })
-        })
-})
-
-router.post("/likefind", (req, res) => {
-    Like.findOne({ postId: req.body.postId, uid: req.body.uid })
+router.post("/getlike", (req, res) => {
+    Post.find({ _id: req.body.postId, likeid: { $in: [req.body.uid] } })
         .exec()
-        .then((likeInfo) => {
-            if (likeInfo) {
-                console.log(likeInfo)
-                return res.status(200).json({ success: true, likeInfo: likeInfo })
+        .then((result) => {
+            if (result.length > 0) {
+                res.status(200).json({ success: true, like: true, likearray: result[0].likeid });
             } else {
-                return res.status(200).json({ success: true })
+                res.status(200).json({ success: true, like: false });
             }
         })
-        .catch((err) => {
-            console.log(err)
-            return res.status(400).json({ success: false })
-        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        });
 })
-
 
 // 이미지 업로드
 router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {

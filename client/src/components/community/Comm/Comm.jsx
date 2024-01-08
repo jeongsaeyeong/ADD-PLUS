@@ -7,23 +7,26 @@ import moment from 'moment'
 import "moment/locale/ko";
 
 const Comm = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 9;
+
     const [postList, setPostList] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("")
-    const [sort, setSort] = useState("인기순")
-    const [active, setActive] = useState('best')
-    const [cate, setCate] = useState('일반게시판')
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sort, setSort] = useState("인기순");
+    const [active, setActive] = useState('best');
+    const [cate, setCate] = useState('일반게시판');
 
     useEffect(() => {
         getpostList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sort])
+    }, [currentPage, sort, cate]);
 
     const getpostList = () => {
         let body = {
             sort: sort,
             searchTerm: searchTerm,
             cate: cate
-        }
+        };
 
         axios.post("/api/post/list", body)
             .then((res) => {
@@ -36,6 +39,16 @@ const Comm = () => {
             })
     }
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const indexOfLastPost = currentPage * itemsPerPage;
+    const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
+
+    const totalPages = Math.ceil(postList.length / itemsPerPage);
+
     const SetTime = (a) => {
         return moment(a).format("YYYY MMM Do");
     }
@@ -44,10 +57,6 @@ const Comm = () => {
         getpostList();
     }
 
-    useEffect(() => {
-        getpostList()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cate])
 
     return (
         <>
@@ -82,7 +91,7 @@ const Comm = () => {
                         </div>
                     </div>
                     <div className="comm__bottom">
-                        {postList.map((post, key) => {
+                        {currentPosts.map((post, key) => {
                             return (<div className="comm__box" key={key}>
                                 <div className='box'>
                                     <div className='emoji'>
@@ -117,15 +126,23 @@ const Comm = () => {
                             </div>)
                         })}
                     </div>
-                    <ul className="pagination">
-                        <li className='left'><Link to="/"></Link></li>
-                        <li><Link to="/" className='active'>1</Link></li>
-                        <li><Link to="/">2</Link></li>
-                        <li><Link to="/">3</Link></li>
-                        <li><Link to="/">4</Link></li>
-                        <li><Link to="/">5</Link></li>
-                        <li className='right'><Link to="/"></Link></li>
-                    </ul>
+                    <div className='pagination'>
+                        {currentPage > 1 && (
+                            <div className='left' onClick={() => handlePageChange(currentPage - 1)}></div>
+                        )}
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <button
+                                key={index + 1}
+                                onClick={() => handlePageChange(index + 1)}
+                                className={currentPage === index + 1 ? 'active' : ''}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        {currentPage < totalPages && (
+                            <div className='right' onClick={() => handlePageChange(currentPage + 1)}></div>
+                        )}
+                    </div>
                 </div>
             </div>
         </>

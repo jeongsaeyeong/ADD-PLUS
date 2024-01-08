@@ -12,64 +12,75 @@ import { useSelector } from 'react-redux'
 
 const CommDetail = (props) => {
     const [checkLike, setCheckLike] = useState(false)
-    const user = useSelector((state) => state.user)
     const [getLike, setGetLike] = useState(false)
+
+    const user = useSelector((state) => state.user)
 
     const increaseViews = () => {
         let body = {
             postId: props.postInfo._id
         }
-
         axios.post('/api/post/increase', body)
             .catch((err) => {
                 console.log(err)
             })
     }
 
-    const onLike = async (e) => {
-        e.preventDefault();
-        setCheckLike((prevCheckLike) => !prevCheckLike);
+    const onLike = () => {
+        setCheckLike(!checkLike)
 
-        const body = {
-            uid: user.uid,
+        let body = {
             delete: !checkLike,
+            uid: user.uid,
             postId: props.postInfo._id
-        };
-
-        try {
-            if (!checkLike) {
-                await axios.post('/api/post/likeinsert', body);
-            } else {
-                await axios.post('/api/post/likedelete', body);
-            }
-        } catch (err) {
-            console.log(err);
         }
-    };
+
+        if (getLike === false && checkLike === false) {
+            axios.post('/api/post/likeinsert', body)
+                .catch((err) => {
+                    console.log(err)
+                })
+        } else {
+            axios.post('/api/post/likedelete', body)
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
 
     useEffect(() => {
-        const findLike = async () => {
-            try {
-                let body = {
-                    uid: user.uid,
-                    postId: props.postInfo._id
-                };
+        LikeGet()
+    })
 
-                const response = await axios.post('/api/post/likefind', body);
-                if (response.data.likeInfo.delete) {
-                    setGetLike(response.data.likeInfo.delete);
+    useEffect(() => {
+        LikeGet()
+        props.GetPost()
+    }, [checkLike])
+
+    const LikeGet = () => {
+        let body = {
+            uid: user.uid,
+            postId: props.postInfo._id
+        }
+
+        axios.post('/api/post/getlike', body)
+            .then((res) => {
+                if (res.data.like) {
+                    setCheckLike(true)
+                    setGetLike(true)
+                } else {
+                    setCheckLike(false)
+                    setGetLike(false)
                 }
-            } catch (err) {
-                console.log(err);
-            }
-        };
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
-        findLike(); // 최초 렌더링 시에도 호출
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [onLike]);
 
     useEffect(() => {
+        props.GetPost()
         increaseViews();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -111,12 +122,12 @@ const CommDetail = (props) => {
                                     <p>{props.postInfo.repleNum}</p>
                                 </div>
                                 <div>
-                                    <button onClick={(e) => { onLike(e); }}>
+                                    <button onClick={() => { onLike(); }}>
                                         <svg
                                             width="22"
                                             height="20"
                                             viewBox="0 0 25 23"
-                                            fill={checkLike ? 'red' : 'none'}
+                                            fill={getLike ? 'red' : 'none'}
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <path
