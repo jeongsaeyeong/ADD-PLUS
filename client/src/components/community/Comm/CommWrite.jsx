@@ -12,7 +12,7 @@ const CommWrite = ({ setCate }) => {
     const [content, setContent] = useState('')
     const [image, setImage] = useState("");
     const user = useSelector((state) => state.user)
-    console.log(user)
+    console.log('user', user)
 
     const navigate = useNavigate()
 

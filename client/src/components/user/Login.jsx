@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import firebase from '../../firebase'
 
 const Login = () => {
     const [userId, setUserId] = useState("");
@@ -25,6 +26,7 @@ const Login = () => {
                 console.log(res)
                 if (res.data.success) {
                     alert("로그인을 완료했습니다.")
+                    firebase.auth().signInWithEmailAndPassword(res.data.result.userEmail, res.data.result.userPass);
                     navigate('/')
                 }
             })

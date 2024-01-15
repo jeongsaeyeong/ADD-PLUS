@@ -61,7 +61,7 @@ router.post("/login", (req, res) => {
         .exec()
         .then((result) => {
             if (result) {
-                res.status(200).json({ success: true })
+                res.status(200).json({ success: true, result: result })
             } else {
                 res.status(400).json({ success: false });
             }

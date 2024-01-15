@@ -62,6 +62,7 @@ const Join03 = () => {
             .then((resopnse) => {
                 if (resopnse.data.success) {
                     alert("회원가입이 완료되었습니다.");
+                    firebase.auth().signOut();
                     navigate("/join04");
                 } else {
                     alert("회원가입이 실패하였습니다.");

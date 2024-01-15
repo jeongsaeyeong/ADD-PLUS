@@ -1,9 +1,112 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ScoreSide from './ScoreSide'
 import { LuSearch } from "react-icons/lu";
-import Header from '../layout/Header';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const Score = () => {
+    const user = useSelector((state) => state.user)
+    const [searchCollege, setSearchCollege] = useState();
+    const [checkCont, setCheckCont] = useState();
+    const [year, setYear] = useState()
+
+    // 학생 정보 입력
+    // 학기
+
+    const [grade, setGrade] = useState('1학년 1학기');
+
+    const [bigCategory, setBigCategory] = useState('교과')
+    const [middleCategory, setMiddleCategory] = useState('국어')
+    const [smallCategory, setSmallCategory] = useState([]);
+    const [selectsmall, setSelectsmall] = useState('고전')
+    const [objectCount, setObjectCount] = useState(0)
+    const [score, setScore] = useState(0)
+
+    const CategoryChange = (middle) => {
+        setMiddleCategory(middle)
+
+        switch (middleCategory) {
+            case "국어":
+                setSmallCategory(['고전', '고전읽기', '국어', '독서', '독서와문법', '문법', '문학', '실용국어', '심화국어', '언어와매체', '화법과작문'])
+                return
+
+            case "수학":
+                setSmallCategory(['기하', '미적분', '미적분I', '미적분II', '수학', '수학I', '수학II', '확률과통계'])
+                return
+
+            case "영어":
+                setSmallCategory(['실용영어I', '실전영어', '심화영어II', '영미문학읽기', '영어', '영어I', '영어II', '영어독해와작문'])
+                return
+
+            case "사회":
+                setSmallCategory(['경제', '고전과윤리', '공통사회', '동아시아사', '법과사회', '법과정치', '통합사회', '사회문화', '생활과윤리', '세계사', '세계지리', '윤리와사상', '정치와법', '한국지리'])
+                return
+
+            case "과학":
+                setSmallCategory(['과학', '물리학I', '물리학II', '생명과학I', '생명과학II', '지구과학I', '지구과학II', '통합과학', '화학I', '화학II'])
+                return
+        }
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        if (objectCount === 0 || score === 0) {
+            alert('빈칸을 모두 채워주세요.')
+            return
+        }
+
+        let body = {
+            uid: user.uid,
+            grade: grade,
+            big: bigCategory,
+            middle: middleCategory,
+            small: selectsmall,
+            count: objectCount,
+            score: score
+        }
+
+        axios.post("/api/score/submit", body)
+            .then((res) => {
+                if (res.data.success) {
+                } else {
+                    alert("성적 등록이 실패하였습니다.");
+                }
+            })
+    }
+
+    useEffect(() => {
+        CategoryChange()
+    }, [middleCategory])
+
+    useEffect(() => {
+    }, [checkCont])
+
+    // 내가 작성한 성적 불러오기 
+
+    const [scoreList, setScoreList] = useState([])
+
+    const getScore = () => {
+        let body = {
+            uid: user.uid,
+            grade: grade,
+        }
+
+        axios.post("/api/score/get", body)
+            .then((res) => {
+                if (res.data.success) {
+                    setScoreList([...res.data.list])
+                } else {
+                    alert("성적 불러오기에 실패하였습니다.");
+                }
+            })
+    }
+
+    useEffect(() => {
+        getScore()
+        console.log(scoreList)
+    }, [])
+
     return (
         <>
             <div className="score__Wrap">
@@ -19,13 +122,32 @@ const Score = () => {
                                 <td>비교 유형</td>
                                 <th>
                                     <div className='check_wrap'>
-                                        <label htmlFor='ipgyl' className="checkCont">입결 비교
-                                            <input id='ipgyl' type="radio" checked="checked" name="radio" />
-                                            <span class="checkmark"></span>
+                                        <label htmlFor='ipgyl' className="checkCont">
+                                            입결 비교
+                                            <input
+                                                id='ipgyl'
+                                                type="radio"
+                                                defaultChecked={checkCont === 'ipgyl'}
+                                                name="radio"
+                                                onChange={() => {
+                                                    setCheckCont('ipgyl');
+                                                }}
+                                            />
+                                            <span className="checkmark"></span>
                                         </label>
-                                        <label htmlFor='suhum' className="checkCont">수험생 비교
-                                            <input id='suhum' type="radio" name="radio" />
-                                            <span class="checkmark"></span>
+
+                                        <label htmlFor='suhum' className="checkCont">
+                                            수험생 비교
+                                            <input
+                                                id='suhum'
+                                                type="radio"
+                                                defaultChecked={checkCont === 'suhum'}
+                                                name="radio"
+                                                onChange={() => {
+                                                    setCheckCont('suhum');
+                                                }}
+                                            />
+                                            <span className="checkmark"></span>
                                         </label>
                                     </div>
                                 </th>
@@ -34,7 +156,12 @@ const Score = () => {
                                 <td>대학</td>
                                 <th className='width100'>
                                     <div className="college_wrap">
-                                        <input type="text" placeholder='대학명을 입력해주세요' />
+                                        <input
+                                            type="text"
+                                            placeholder='대학명을 입력해주세요'
+                                            value={searchCollege}
+                                            onChange={(e) => { setSearchCollege(e.currentTarget.value) }}
+                                        />
                                         <LuSearch />
                                     </div>
                                 </th>
@@ -123,51 +250,51 @@ const Score = () => {
                                         <tr>
                                             <th>
                                                 <div>
-                                                    1학기<button className='active'>입력</button>
+                                                    1학기<button className={grade === '1학년 1학기' ? 'active' : ''} onClick={() => setGrade('1학년 1학기')}>입력</button>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div>
-                                                    2학기<button>입력</button>
+                                                    2학기<button className={grade === '1학년 2학기' ? 'active' : ''} onClick={() => setGrade('1학년 2학기')}>입력</button>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div>
-                                                    1학기<button>입력</button>
+                                                    1학기<button className={grade === '2학년 1학기' ? 'active' : ''} onClick={() => setGrade('2학년 1학기')}>입력</button>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div>
-                                                    2학기<button>입력</button>
+                                                    2학기<button className={grade === '2학년 2학기' ? 'active' : ''} onClick={() => setGrade('2학년 2학기')}>입력</button>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div>
-                                                    1학기<button>입력</button>
+                                                    1학기<button className={grade === '3학년 1학기' ? 'active' : ''} onClick={() => setGrade('3학년 1학기')}>입력</button>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div>
-                                                    2학기<button>입력</button>
+                                                    2학기<button className={grade === '3학년 2학기' ? 'active' : ''} onClick={() => setGrade('3학년 2학기')}>입력</button>
                                                 </div>
                                             </th>
                                         </tr>
                                     </table>
 
                                     <div className="score_cont">
-                                        <p className="score_choice_title">1학년 1학기</p>
+                                        <p className="score_choice_title">{grade}</p>
                                         <div className="score_select">
-                                            <select name="" id="">
-                                                <option value="">2024 학년도 (현재 고3)</option>
-                                                <option value="">2024 학년도 (현재 고3)</option>
-                                                <option value="">2024 학년도 (현재 고3)</option>
-                                                <option value="">2024 학년도 (현재 고3)</option>
-                                                <option value="">2024 학년도 (현재 고3)</option>
+                                            <select name="year" id="year">
+                                                <option value="2024" onClick={() => { setYear('2024') }}>2024 학년도</option>
+                                                <option value="2023" onClick={() => { setYear('2023') }}>2023 학년도</option>
+                                                <option value="2022" onClick={() => { setYear('2022') }}>2022 학년도</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <table className="score_list">
+
+
                                         <tr>
                                             <td>번호</td>
                                             <td>교과종류 구분</td>
@@ -177,35 +304,72 @@ const Score = () => {
                                             <td>석차등급</td>
                                             <td></td>
                                         </tr>
-                                        <tr className='score_mobile_list'>
+
+                                        {scoreList.map((list, key) => {
+                                            <tr className='score_mobile_list' key={key}>
+                                                <th className='no'>{key + 1}</th>
+                                                <th>
+                                                    <div className='score_select'>
+                                                        <p>{list.big}</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div className='score_select'>
+                                                        <p>{list.middle}</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div className='score_select'>
+                                                        {list.small}
+                                                    </div>
+                                                </th>
+                                                <th className='width100'>
+                                                    <div>
+                                                        <input type='text' placeholder='년도' />
+                                                    </div>
+                                                </th>
+                                                <th className='width100 m_w50'>
+                                                    <div>
+                                                        {list.count}
+                                                    </div>
+                                                </th>
+                                                <th className='width100 m_w50'>
+                                                    <div>
+                                                        {list.score}
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        })}
+
+                                        {/* <tr className='score_mobile_list'>
                                             <th className='no'>1</th>
                                             <th>
                                                 <div className='score_select'>
-                                                    <select name="" id="">
-                                                        <option value="">국어1</option>
-                                                        <option value="">수학1</option>
-                                                        <option value="">영어1</option>
-                                                        <option value="">사회1</option>
+                                                    <select name="big" id="big">
+                                                        <option value="교과" onClick={() => { setBigCategory('교과') }}>교과</option>
+                                                        <option value="비교과" onClick={() => { setBigCategory('비교과') }}>비교과</option>
                                                     </select>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div className='score_select'>
-                                                    <select name="" id="">
-                                                        <option value="">국어1</option>
-                                                        <option value="">수학1</option>
-                                                        <option value="">영어1</option>
-                                                        <option value="">사회1</option>
+                                                    <select name="middle" id="middle" onChange={(e) => CategoryChange(e.target.value)}>
+                                                        <option value="국어">국어</option>
+                                                        <option value="수학">수학</option>
+                                                        <option value="영어">영어</option>
+                                                        <option value="사회">사회</option>
+                                                        <option value="과학">과학</option>
                                                     </select>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div className='score_select'>
-                                                    <select name="" id="">
-                                                        <option value="">국어1</option>
-                                                        <option value="">수학1</option>
-                                                        <option value="">영어1</option>
-                                                        <option value="">사회1</option>
+                                                    <select name="small" id="small" onChange={(e) => setSelectsmall(e.target.value)}>
+                                                        {smallCategory.map((category, key) => (
+                                                            <option key={key} value={category}>
+                                                                {category}
+                                                            </option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                             </th>
@@ -216,18 +380,19 @@ const Score = () => {
                                             </th>
                                             <th className='width100 m_w50'>
                                                 <div>
-                                                    <input className='input_num' style={{ width: "100%" }} type='text' placeholder='단위수' />
+                                                    <input className='input_num' style={{ width: "100%" }} type='text' placeholder='단위수' value={objectCount} onChange={(e) => { setObjectCount(e.currentTarget.value) }} />
                                                 </div>
                                             </th>
                                             <th className='width100 m_w50'>
                                                 <div>
-                                                    <input className='input_num' style={{ width: "100%" }} type='text' placeholder='석차등급' />
+                                                    <input className='input_num' style={{ width: "100%" }} type='text' placeholder='석차등급' value={score} onChange={(e) => { setScore(e.currentTarget.value) }} />
                                                 </div>
                                             </th>
                                             <th className='width100 m_delete'>
-                                                <button>삭제하기</button>
+                                                <button>삭제</button>
+                                                <button onClick={(e) => { onSubmit(e) }}>저장</button>
                                             </th>
-                                        </tr>
+                                        </tr> */}
                                     </table>
 
                                     <button className='scorePlus_btn'>추가하기 +</button>
