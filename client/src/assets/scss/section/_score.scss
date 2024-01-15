@@ -6,7 +6,14 @@
         width: 15%;
         background-color: #F4F4F4;
         text-align: center;
-        border-right: 2px solid #D6D6D6;
+        border-right: 1px solid #D6D6D6;
+        position: sticky;
+        height: 100vh;
+        top: 0;
+
+        @media (max-width: 1250px) {
+            display: none;
+        }
 
         h2 {
             margin: 0 auto;
@@ -59,6 +66,17 @@
         padding: 2.8% 10% 3%;
         width: 85%;
 
+        @media (max-width: 1500px) {
+            padding: 2.8% 3% 3%;
+            width: 85%;
+        }
+
+        @media (max-width: 1250px) {
+            padding: 2.8% 2% 3%;
+            width: 100%;
+            margin: 0 auto;
+        }
+
         .score_title {
             border-bottom: 1px solid #D6D6D6;
 
@@ -77,6 +95,11 @@
                 border-collapse: collapse;
 
                 tr {
+                    @media (max-width: 1250px) {
+                        display: flex;
+                        flex-wrap: wrap;
+                    }
+
                     td {
                         background: #F6F6F6;
                         padding: 0.85rem 0 0.6rem;
@@ -84,6 +107,10 @@
                         text-align: center;
                         border: 1px solid #D6D6D6;
                         border-right: none;
+
+                        @media (max-width: 1250px) {
+                            display: none;
+                        }
                     }
 
                     th {
@@ -91,10 +118,18 @@
                         border: 1px solid #D6D6D6;
                         text-align: left;
 
+                        @media (max-width: 1250px) {
+                            border: none;
+                        }
+
                         .check_wrap {
                             display: flex;
                             margin-left: 1rem;
                             margin-bottom: -0.25rem;
+
+                            @media (max-width: 1250px) {
+                                margin-left: 0;
+                            }
 
                             .checkCont {
                                 display: block;
@@ -153,6 +188,10 @@
                                 border: 1px solid #b3b3b3;
                                 border-radius: 3px;
 
+                                @media (max-width: 1250px) {
+                                    top: -1px;
+                                }
+
                                 &:after {
                                     content: "";
                                     position: absolute;
@@ -179,11 +218,21 @@
                             padding: 0.9rem 1rem 0.8rem;
                             border-radius: 5px;
 
+                            @media (max-width: 1250px) {
+                                width: 100%;
+                            }
+
                             svg {
                                 stroke: #7D7D7D;
                                 width: 20px;
                                 height: 20px;
                                 margin-top: -0.05rem;
+
+                                @media (max-width: 1250px) {
+                                    width: 17px;
+                                    height: 17px;
+                                    margin-top: 0;
+                                }
                             }
 
                             input {
@@ -193,6 +242,12 @@
                                 &::placeholder {
                                     color: #979797;
                                 }
+
+                                @media (max-width: 1250px) {
+                                    font-size: 0.9rem;
+                                    width: 100%;
+                                }
+
                             }
                         }
 
@@ -200,10 +255,18 @@
                             display: flex;
                             border-collapse: collapse;
 
+                            @media (max-width: 1250px) {
+                                flex-direction: column;
+                            }
+
                             .depart_wrap,
                             .type_wrap {
                                 width: 50%;
                                 border: 1px solid #D6D6D6;
+
+                                @media (max-width: 1250px) {
+                                    width: 100%;
+                                }
 
                                 .depart_title {
                                     background-color: #F6F6F6;
@@ -262,33 +325,72 @@
 
                             .type_wrap {
                                 border-left: 0;
+
+                                @media (max-width: 1250px) {
+                                    border: 1px solid #D6D6D6;
+                                    margin-top: 1rem;
+                                }
                             }
                         }
 
                         table.score_wrap {
                             margin: 0;
 
+                            @media (max-width: 1250px) {
+                                border: 1px solid #D6D6D6;
+                                border-spacing: 0;
+                                border-collapse: collapse;
+                            }
+
                             tr {
+                                @media (max-width: 1250px) {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    flex-direction: row;
+                                    justify-content: space-around;
+                                }
+
                                 td {
                                     border: 1px solid #D6D6D6;
                                     padding: 0.95rem 0 0.7rem;
                                     color: #4D4D4D;
+
+                                    @media (max-width: 1250px) {
+                                        display: block;
+                                        width: 33.333333%;
+                                        border-collapse: collapse;
+                                        border: none;
+                                        font-size: 0.9rem;
+                                        padding: 0.7rem 0 0.5rem;
+                                    }
                                 }
 
                                 th {
+                                    @media (max-width: 1250px) {
+                                        padding: 0.5rem 0;
+                                    }
+
                                     div {
                                         display: flex;
                                         flex-direction: column;
                                         align-items: center;
                                         color: #4D4D4D;
 
+                                        @media (max-width: 1250px) {
+                                            font-size: 0.8rem;
+                                        }
+
                                         button {
                                             color: #fff;
                                             background-color: #848484;
-                                            padding: 0.4rem 1rem 0.3rem;
+                                            padding: 0.5rem 1rem 0.4rem;
                                             font-size: 0.8rem;
                                             border-radius: 50px;
                                             margin-top: 0.2rem;
+
+                                            @media (max-width: 1250px) {
+                                                font-size: 0.7rem;
+                                            }
 
                                             &:hover {
                                                 background-color: var(--primary-color);
@@ -317,6 +419,12 @@
                                 padding: 0.9rem 1rem 0.8rem;
                                 border-radius: 5px;
 
+                                @media (max-width: 1250px) {
+                                    width: 100%;
+                                    font-size: 0.9rem;
+                                    padding: 0;
+                                }
+
                                 select {
                                     width: 100%;
                                     height: 100%;
@@ -331,6 +439,11 @@
                                     color: #4D4D4D;
                                     outline: none;
 
+                                    @media (max-width: 1250px) {
+                                        font-size: 0.9rem;
+                                        padding: 1.2rem 1.2rem 1rem;
+                                    }
+
                                     &::-ms-expand {
                                         display: none;
                                     }
@@ -343,7 +456,15 @@
                         table.score_list {
                             margin-top: 1rem;
 
+
+
                             tr {
+                                @media (max-width: 1250px) {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    justify-content: space-between;
+                                }
+
                                 td {
                                     border: 1px solid #D6D6D6;
                                     padding: 0.95rem 0 0.7rem;
@@ -354,32 +475,178 @@
                                     font-size: 0.85rem;
                                     text-align: center;
 
+                                    @media (max-width: 1250px) {
+                                        padding: 0;
+                                        margin-bottom: 0.5rem;
+                                    }
+
                                     input {
                                         background-color: #F6F6F6;
                                         padding: 0.9rem 1rem 0.8rem;
                                         border-radius: 5px;
                                         display: inline-block;
                                         font-size: 0.85rem;
+                                        outline: none;
+
+
                                     }
 
-                                    select {
-                                        background-color: #F6F6F6;
+                                    .input_num {
+                                        text-align: center;
+
+                                        @media (max-width: 1250px) {
+                                            text-align: left;
+                                        }
+                                    }
+
+                                    .score_select {
+                                        background: url('../../img/icon_arrowdown.svg') no-repeat 90% 50%/20px auto;
+                                        border: 1px solid #D6D6D6;
                                         border-radius: 5px;
-                                        padding: 0.9rem 1rem 0.8rem;
+
                                         display: inline-block;
                                         font-size: 0.85rem;
+                                        text-align: left;
                                         width: 100px;
+
+                                        select {
+                                            display: inline-block;
+                                            font-size: 0.85rem;
+                                            padding: 0.9rem 1rem 0.8rem;
+                                            width: 100%;
+                                            outline: none;
+                                            border: 0; //기본 스타일 제거
+                                            -webkit-appearance: none;
+                                            -moz-appearance: none;
+                                            appearance: none;
+                                            box-sizing: border-box;
+                                            background: transparent;
+                                            color: #4D4D4D;
+                                            outline: none;
+
+                                            &::-ms-expand {
+                                                display: none;
+                                            }
+                                        }
+
+                                        // select {
+                                        //     border: 1px solid #D6D6D6;
+                                        //     border-radius: 5px;
+                                        //     padding: 0.9rem 1rem 0.8rem;
+                                        //     display: inline-block;
+                                        //     font-size: 0.85rem;
+                                        //     width: 100px;
+                                        //     outline: none;
+                                        // }
                                     }
 
                                     button {
-                                        font-size: 0.85rem;
                                         text-align: center;
+                                        background: #848484;
+                                        color: #fff;
+                                        padding: 0.4rem 0.5rem 0.3rem;
+                                        font-size: 0.75rem;
+                                        outline: none;
+                                        cursor: pointer;
+
+                                        @media (max-width: 1250px) {
+                                            float: right;
+                                        }
                                     }
+
+                                }
+
+                                th.no {
+                                    @media (max-width: 1250px) {
+                                        display: flex;
+                                        align-items: center;
+                                        padding-right: 1rem;
+                                    }
+                                }
+
+                                th.m_w50 {
+                                    @media (max-width: 1250px) {
+                                        width: 49%;
+                                    }
+                                }
+
+                                th.width100 {
+                                    div {
+                                        input {
+                                            @media (max-width: 1250px) {
+                                                width: 100%;
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            tr.score_mobile_list {
+                                @media (max-width: 1250px) {
+                                    border-top: 1px solid #D6D6D6;
+                                    padding-top: 1rem;
                                 }
                             }
                         }
 
+                        button.scorePlus_btn {
+                            width: 100%;
+                            margin-top: 1rem;
+                            padding: 0.6rem 0;
+                            background: #F6F6F6;
+                            border: 1px solid #D6D6D6;
+                            font-size: 0.9rem;
+                            letter-spacing: -0.5px;
+                            color: #585858;
+                            cursor: pointer;
+                        }
+
                     }
+
+                    th.width100 {
+                        @media (max-width: 1250px) {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                tr.score01 {
+                    @media (max-width: 1250px) {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .score_btn {
+                text-align: center;
+                margin: 5rem 0;
+
+                button.scoreResult_btn {
+                    width: 140px;
+                    border-radius: 50px;
+                    background-color: var(--primary-color);
+                    color: #fff;
+                    padding: 0.7rem 0 0.8rem;
+                    cursor: pointer;
+                }
+            }
+
+            .score_result_txt {
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 5rem;
+
+                @media (max-width: 1250px) {
+                    font-size: 1.5rem;
+                }
+
+                span {
+                    color: var(--primary-color);
+                    font-family: var(--mainfont-Gmarket-bold);
+                    font-size: 2.5rem;
+
+
                 }
             }
         }

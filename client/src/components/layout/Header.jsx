@@ -19,8 +19,8 @@ const Header = () => {
                     <ul>
                         <li><Link to="/" className='active'>ADD MAP</Link></li>
                         <li><Link to="/comm">ADD COMM</Link></li>
-                        <li><Link to="/">ADD SCORE</Link></li>
-                        <li><Link to="/">MYPAGE</Link></li>
+                        <li><Link to="/score">ADD SCORE</Link></li>
+                        <li><Link to="/mypage">MYPAGE</Link></li>
                     </ul>
                 </nav>
             </div>

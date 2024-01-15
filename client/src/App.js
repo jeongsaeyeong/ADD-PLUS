@@ -27,8 +27,18 @@ import Header from './components/layout/Header.jsx'
 import Home from './page/Home.jsx'
 import CommModify from './components/community/Comm/CommModify.jsx'
 
+import Score from './components/score/Score.jsx'
 
 import CommArea from './components/community/Comm/CommArea.jsx'
+import MypageInput from './components/mypage/MypageInput.jsx'
+import MypageScore from './components/mypage/MypageScore.jsx'
+import MypageActive from './components/mypage/MypageActive.jsx'
+import MypageCollege from './components/mypage/MypageCollege.jsx'
+import MypagePoint from './components/mypage/MypagePoint.jsx'
+import MypageDisplay from './components/mypage/MypageDisplay.jsx'
+import MypageMyinfo from './components/mypage/MypageMyinfo.jsx'
+import MypageTarget from './components/mypage/MypageTarget.jsx'
+
 
 const App = () => {
 
@@ -66,6 +76,18 @@ const App = () => {
         <Route path='/findId' element={<FindId />}></Route>
         <Route path='/findId02/:userEmail' element={<FindId02 />}></Route>
         <Route path='/findId03' element={<FindId03 />}></Route>
+
+        <Route path='/score' element={<Score />}></Route>
+
+        <Route path='/mypage' element={<MypageScore />}></Route>
+        <Route path='/mypageInput' element={<MypageInput />}></Route>
+        <Route path='/mypageActive' element={<MypageActive />}></Route>
+        <Route path='/mypageCollege' element={<MypageCollege />}></Route>
+        <Route path='/mypagePoint' element={<MypagePoint />}></Route>
+        <Route path='/mypageDisplay' element={<MypageDisplay />}></Route>
+        <Route path='/mypageMyinfo' element={<MypageMyinfo />}></Route>
+        <Route path='/mypageTarget' element={<MypageTarget />}></Route>
+
       </Routes>
     </>
   )
