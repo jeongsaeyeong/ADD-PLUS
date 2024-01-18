@@ -5,15 +5,11 @@ import { useNavigate } from "react-router-dom";
 import CommImg from './CommImg';
 
 const CommWrite = ({ setCate }) => {
-    console.log(setCate)
-
     const [selectCate, setSeletCate] = useState('일반게시판')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [image, setImage] = useState("");
     const user = useSelector((state) => state.user)
-    console.log('user', user)
-
     const navigate = useNavigate()
 
     const cateChange = (e) => {

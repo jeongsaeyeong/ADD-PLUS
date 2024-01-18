@@ -36,7 +36,7 @@ import MypageActive from './components/mypage/MypageActive.jsx'
 import MypageCollege from './components/mypage/MypageCollege.jsx'
 import MypagePoint from './components/mypage/MypagePoint.jsx'
 import MypageDisplay from './components/mypage/MypageDisplay.jsx'
-import MypageMyinfo from './components/mypage/MypageMyinfo.jsx'
+import MypageMyinfo from './components/mypage/MypageMyinfo/MypageMyinfo.jsx'
 import MypageTarget from './components/mypage/MypageTarget.jsx'
 
 

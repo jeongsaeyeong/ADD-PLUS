@@ -198,7 +198,6 @@ router.post("/getlike", (req, res) => {
 
 // 이미지 업로드
 router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {
-    // console.log(res.req);
     res.status(200).json({ success: true, filePath: res.req.file.location })
 })
 

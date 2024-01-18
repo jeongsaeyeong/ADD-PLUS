@@ -136,4 +136,28 @@ router.post("/findiduser", (req, res) => {
         })
 })
 
+router.post("/checkpass", (req, res) => {
+    User.findOne({ userPass: req.body.userPass, uid: req.body.uid })
+        .exec()
+        .then((result) => {
+            if (result) {
+                res.status(200).json({ success: true });
+            } else {
+                res.status(400).json({ success: false });
+            }
+        })
+});
+
+router.post("/userinfo", (req, res) => {
+    User.findOne({ uid: req.body.uid })
+        .exec()
+        .then((userInfo) => {
+            if (userInfo) {
+                res.status(200).json({ success: true, userInfo: userInfo });
+            } else {
+                res.status(400).json({ success: false });
+            }
+        })
+});
+
 module.exports = router;
