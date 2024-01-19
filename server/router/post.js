@@ -201,5 +201,22 @@ router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {
     res.status(200).json({ success: true, filePath: res.req.file.location })
 })
 
+// mypage 리스트
+
+// 글 리스트
+router.post("/mylist", (req, res) => {
+    Post
+        .find({ uid: req.body.uid })
+        .populate("author")
+        .exec()
+        .then((result) => {
+            res.status(200).json({ success: true, postList: result });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({ success: false });
+        });
+});
+
 
 module.exports = router;

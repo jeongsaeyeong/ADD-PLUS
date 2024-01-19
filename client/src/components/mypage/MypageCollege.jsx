@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MypageSide from './MypageSide'
 
 const MypageCollege = () => {
+    const [Radio, setRadio] = useState('재학증명서');
+
+    const handleRadioChange = (value) => {
+        setRadio(value);
+    }
+
+    const SubmitUni = (e) => {
+        e.preventDefault();
+    }
+
     return (
         <>
             <div className='score__Wrap mypage_Wrap'>
@@ -34,18 +44,30 @@ const MypageCollege = () => {
 
                     <div className="mypage_college_radio">
                         <label className="container">재학증명서
-                            <input type="radio" checked="checked" name="radio" />
+                            <input
+                                type="radio"
+                                checked={Radio === '재학증명서'}
+                                onChange={() => handleRadioChange('재학증명서')}
+                                name="radio"
+                            />
                             <span className="checkmark"></span>
                         </label>
                         <label className="container">졸업증명서
-                            <input type="radio" name="radio" />
+                            <input
+                                type="radio"
+                                checked={Radio === '졸업증명서'}
+                                onChange={() => handleRadioChange('졸업증명서')}
+                                name="radio"
+                            />
                             <span className="checkmark"></span>
                         </label>
                     </div>
 
                     <div className="mypage_file">
                         <input type="file" />
-                        <button>인증신청</button>
+                        <button
+                            onClick={(e) => { SubmitUni(e) }}
+                        >인증신청</button>
                     </div>
 
                 </div>

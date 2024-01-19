@@ -1,8 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MypageSide from './MypageSide'
+import { useSelector } from 'react-redux'
+import moment from 'moment'
+import axios from 'axios'
 
 const MypageActive = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 9;
+
+    const [postList, setPostList] = useState([]); // 먼저 초기화되도록 변경
+
+    const user = useSelector((state) => state.user)
+
+    useEffect(() => {
+        getpostList();
+    }, [user]);
+
+    const getpostList = () => {
+        let body = {
+            uid: user._id
+        };
+
+        axios.post("/api/post/mylist", body)
+            .then((res) => {
+                if (res.data.success) {
+                    setPostList([...res.data.postList]);
+                    console.log(postList)
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const indexOfLastPost = currentPage * itemsPerPage;
+    const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
+    const totalPages = Math.ceil(postList.length / itemsPerPage);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const SetTime = (a) => {
+        return moment(a).format("YYYY MMM Do");
+    }
+
     return (
         <>
             <div className="comm__Wrap mypage_Wrap">
@@ -10,284 +54,65 @@ const MypageActive = () => {
                 <div className='main'>
                     <div className="comm__top">
                         <div className="comm_tab">
-                            <ul>
-                                <li className='main-tab active'>좋아요 한 글</li>
-                                <li className='main-tab'>작성한 글/댓글</li>
-                            </ul>
+                            <div>
+                                <button className='main-tab active'>작성한 글/댓글</button>
+                                <button className='main-tab'>좋아요 한 글</button>
+                            </div>
                         </div>
                     </div>
                     <div className="comm__bottom">
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
+                        {currentPosts.map((post, key) => {
+                            return (<div className="comm__box" key={key}>
+                                <div className='box'>
+                                    <div className='emoji'>
+                                        <div className='emoticon'></div>
+                                        <button className="like__btn"
+                                        // onClick={(e) => { setPostId(post._id); handleClick(e) }}
+                                        >
+                                        </button>
                                     </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
+                                    <div className="comm__header">
+                                        <div className="cate">{post.cate}</div>
+                                        <h2><Link to={`/commdetail/${post.postNum}`}>{post.title}</Link></h2>
+                                    </div>
+                                    <div className="comm__text">
+                                        <p>{post.content}</p>
+                                        <p className='anothor'>{post.author.userCate}</p>
                                     </div>
                                 </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
+                                <div className="comm__info">
+                                    <div>
+                                        <div className="watch">
+                                            <div></div>
+                                            <p>{post.veiwNum}</p>
+                                        </div>
+                                        <div className="like">
+                                            <div></div>
+                                            <p>{post.likeNum}</p>
+                                        </div>
                                     </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
+                                    <div className="date">{SetTime(post.createdAt)}</div>
                                 </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
-                        <div className="comm__box">
-                            <div className='box'>
-                                <div className='emoji'>
-                                    <div className='emoticon'></div>
-                                    <div className="like__btn"></div>
-                                </div>
-                                <div className="comm__header">
-                                    <div className="cate">HOT</div>
-                                    <h2>입시 어쩌고 저쩌고</h2>
-                                </div>
-                                <div className="comm__text">
-                                    <p>입시에 관련된 아무말입니다. 입시에 관련된 아무말입니다. 아무말 아무말 아무말</p>
-                                    <p className='anothor'>정새영</p>
-                                </div>
-                            </div>
-                            <div className="comm__info">
-                                <div>
-                                    <div className="watch">
-                                        <div></div>
-                                        <p>54</p>
-                                    </div>
-                                    <div className="like">
-                                        <div></div>
-                                        <p>987</p>
-                                    </div>
-                                </div>
-                                <div className="date">2023.12.06</div>
-                            </div>
-                        </div>
+                            </div>)
+                        })}
                     </div>
-                    <ul class="pagination">
-                        <li className='left'><Link to="/"></Link></li>
-                        <li><Link to="/" className='active'>1</Link></li>
-                        <li><Link to="/">2</Link></li>
-                        <li><Link to="/">3</Link></li>
-                        <li><Link to="/">4</Link></li>
-                        <li><Link to="/">5</Link></li>
-                        <li className='right'><Link to="/"></Link></li>
-                    </ul>
+                    <div className='pagination'>
+                        {currentPage > 1 && (
+                            <div className='left' onClick={() => handlePageChange(currentPage - 1)}></div>
+                        )}
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <button
+                                key={index + 1}
+                                onClick={() => handlePageChange(index + 1)}
+                                className={currentPage === index + 1 ? 'active' : ''}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        {currentPage < totalPages && (
+                            <div className='right' onClick={() => handlePageChange(currentPage + 1)}></div>
+                        )}
+                    </div>
                 </div>
             </div>
         </>

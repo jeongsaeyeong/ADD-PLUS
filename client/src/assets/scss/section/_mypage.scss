@@ -1268,13 +1268,16 @@
             }
 
             >div {
-                input {
+
+                input,
+                p {
                     border: 1px solid #C5C5C5;
                     padding: 0.9rem 1rem 0.7rem;
                     width: 100%;
                     border-radius: 6px;
                     margin-bottom: 2rem;
                     margin-top: 0.3rem;
+                    font-size: 16px;
 
                     &::placeholder {
                         color: #C5C5C5;

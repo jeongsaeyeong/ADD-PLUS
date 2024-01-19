@@ -160,4 +160,34 @@ router.post("/userinfo", (req, res) => {
         })
 });
 
+router.post("/change", (req, res) => {
+    User.findOneAndUpdate(
+        { uid: req.body.uid },
+        {
+            displayName: req.body.displayName,
+            userPass: req.body.userPass,
+            userPhone: req.body.userPhone,
+        })
+        .exec()
+        .then(() => {
+            res.status(200).json({ success: true });
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(400).json({ success: false });
+        })
+});
+
+router.post("/delete", (req, res) => {
+    User.findOneAndDelete({ uid: req.body.uid })
+        .exec()
+        .then(() => {
+            res.status(200).json({ success: true });
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(400).json({ success: false });
+        })
+});
+
 module.exports = router;
