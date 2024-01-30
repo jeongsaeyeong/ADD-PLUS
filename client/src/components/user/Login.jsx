@@ -11,7 +11,6 @@ const Login = () => {
 
     const onLogin = (e) => {
         e.preventDefault();
-
         if (!(userId && userPass)) {
             return alert("이메일 또는 비밀번호를 채워주세요!")
         }
@@ -62,7 +61,7 @@ const Login = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="youPass">비밀번호</label>
+                            <label htmlFor="password">비밀번호</label>
                             <input
                                 type="password"
                                 placeholder='비밀번호를 입력해주세요.'

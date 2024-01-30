@@ -11,18 +11,50 @@ const MypageActive = () => {
 
     const [postList, setPostList] = useState([]); // 먼저 초기화되도록 변경
 
+    const [activeTab, setActiveTab] = useState('tab1');
+
+    const changeTab = (tabId) => {
+        if (tabId === 'tab1' && activeTab !== 'tab1') {
+            setActiveTab('tab1');
+            getpostList();
+        } else if (tabId === 'tab2' && activeTab !== 'tab2') {
+            setActiveTab('tab2');
+            getpostLikeList();
+        }
+    };
+
+
     const user = useSelector((state) => state.user)
 
     useEffect(() => {
         getpostList();
+        console.log(user)
     }, [user]);
 
     const getpostList = () => {
         let body = {
-            uid: user._id
+            uid: user.uid
         };
 
         axios.post("/api/post/mylist", body)
+            .then((res) => {
+                if (res.data.success) {
+                    setPostList([...res.data.postList]);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const getpostLikeList = () => {
+        let body = {
+            uid: user.uid
+        };
+
+        console.log(user.uid);
+
+        axios.post("/api/post/likelist", body)
             .then((res) => {
                 if (res.data.success) {
                     setPostList([...res.data.postList]);
@@ -47,6 +79,15 @@ const MypageActive = () => {
         return moment(a).format("YYYY MMM Do");
     }
 
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        } else {
+            return text.slice(0, maxLength) + '...';
+        }
+    };
+
+
     return (
         <>
             <div className="comm__Wrap mypage_Wrap">
@@ -55,8 +96,14 @@ const MypageActive = () => {
                     <div className="comm__top">
                         <div className="comm_tab">
                             <div>
-                                <button className='main-tab active'>작성한 글/댓글</button>
-                                <button className='main-tab'>좋아요 한 글</button>
+                                <button
+                                    className={`main-tab ${activeTab === 'tab1' ? 'active' : ''}`}
+                                    onClick={() => changeTab('tab1')}
+                                >작성한 글/댓글</button>
+                                <button
+                                    className={`main-tab ${activeTab === 'tab2' ? 'active' : ''}`}
+                                    onClick={() => changeTab('tab2')}
+                                > 좋아요 한 글</button>
                             </div>
                         </div>
                     </div>
@@ -73,10 +120,10 @@ const MypageActive = () => {
                                     </div>
                                     <div className="comm__header">
                                         <div className="cate">{post.cate}</div>
-                                        <h2><Link to={`/commdetail/${post.postNum}`}>{post.title}</Link></h2>
+                                        <h2><Link to={`/commdetail/${post.postNum}`}>{truncateText(post.title, 12)}</Link></h2>
                                     </div>
                                     <div className="comm__text">
-                                        <p>{post.content}</p>
+                                        <p>{truncateText(post.content, 70)}</p>
                                         <p className='anothor'>{post.author.userCate}</p>
                                     </div>
                                 </div>

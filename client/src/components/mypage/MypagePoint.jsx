@@ -9,6 +9,7 @@ const MypagePoint = () => {
 
     const [isGuideOpen, setIsGuideOpen] = useState(false);
     const [isChargeOpen, setIsChargeOpen] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const toggleGuide = () => {
         setIsGuideOpen(!isGuideOpen);
@@ -17,6 +18,10 @@ const MypagePoint = () => {
     const toggleCharge = () => {
         setIsChargeOpen(!isChargeOpen);
     }
+
+    const handleSpanClick = (index) => {
+        setActiveIndex(index);
+    };
 
     return (
         <>
@@ -126,17 +131,22 @@ const MypagePoint = () => {
                                 <div className="charge_method">
                                     <h5>결제수단</h5>
                                     <div className="method_cont">
-                                        <span>신용카드</span>
+                                        <span className='active'>신용카드</span>
                                         <span>무통장 입금</span>
                                     </div>
                                 </div>
                                 <div className="charge_count">
                                     <h5>결제금액</h5>
                                     <div className="count_cont">
-                                        <span>₩ 5,000</span>
-                                        <span>₩ 10,000</span>
-                                        <span>₩ 20,000</span>
-                                        <span>₩ 50,000</span>
+                                        {[5000, 10000, 20000, 50000].map((amount, index) => (
+                                            <span
+                                                key={index}
+                                                className={index === activeIndex ? 'active' : ''}
+                                                onClick={() => handleSpanClick(index)}
+                                            >
+                                                ₩ {amount}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
                                 <div className="charge_result">
@@ -167,7 +177,7 @@ const MypagePoint = () => {
 
                             <div className="mypage_college_radio charge_radio">
                                 <label className="container">서비스 이용약관에 동의합니다. <a href="#">[전문보기]</a>
-                                    <input type="checkbox" checked="checked" name="radio" />
+                                    <input type="checkbox" name="radio" />
                                     <span className="checkmark"></span>
                                 </label>
                                 <label className="container">개인정보수집 및 이용정책에 동의합니다. <a href="#">[전문보기]</a>

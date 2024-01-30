@@ -14,7 +14,7 @@ const Comm = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [sort, setSort] = useState("인기순");
     const [active, setActive] = useState('best');
-    const [cate, setCate] = useState('일반게시판');
+    const [cate, setCate] = useState('일반');
 
     useEffect(() => {
         getpostList();
@@ -27,15 +27,29 @@ const Comm = () => {
             cate: cate
         };
 
-        axios.post("/api/post/list", body)
-            .then((res) => {
-                if (res.data.success) {
-                    setPostList([...res.data.postList]);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        if (cate === 'Hot') {
+            axios.post("/api/post/hot", body)
+                .then((res) => {
+                    if (res.data.success) {
+                        setPostList([...res.data.postList]);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        } else {
+            axios.post("/api/post/list", body)
+                .then((res) => {
+                    if (res.data.success) {
+                        setPostList([...res.data.postList]);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+
+
     }
 
     const handlePageChange = (page) => {
@@ -55,6 +69,14 @@ const Comm = () => {
     const SearchHandeler = () => {
         getpostList();
     }
+
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        } else {
+            return text.slice(0, maxLength) + '...';
+        }
+    };
 
 
     return (
@@ -102,10 +124,10 @@ const Comm = () => {
                                     </div>
                                     <div className="comm__header">
                                         <div className="cate">{post.cate}</div>
-                                        <h2><Link to={`/commdetail/${post.postNum}`}>{post.title}</Link></h2>
+                                        <h2><Link to={`/commdetail/${post.postNum}`}>{truncateText(post.title, 12)}</Link></h2>
                                     </div>
                                     <div className="comm__text">
-                                        <p>{post.content}</p>
+                                        <p>{truncateText(post.content, 70)}</p>
                                         <p className='anothor'>{post.author.userCate}</p>
                                     </div>
                                 </div>

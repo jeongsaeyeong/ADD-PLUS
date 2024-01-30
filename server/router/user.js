@@ -5,6 +5,8 @@ const { User } = require("../model/User.js");
 const { Counter } = require("../model/Counter.js");
 
 router.post("/join", (req, res) => {
+    console.log(req.body)
+
     let temp = req.body;
 
     Counter.findOne({ name: "counter" })
@@ -57,6 +59,7 @@ router.post("/idcheck", (req, res) => {
 })
 
 router.post("/login", (req, res) => {
+    console.log(req.body)
     User.findOne({ userId: req.body.userId, userPass: req.body.userPass })
         .exec()
         .then((result) => {

@@ -9,7 +9,7 @@ const CommModify = () => {
     const [postInfo, setPostInfo] = useState({});
 
     // 글 작성을 위한 정보
-    const [selectCate, setSeletCate] = useState('일반게시판')
+    const [selectCate, setSeletCate] = useState('일반')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const user = useSelector((state) => state.user)
@@ -80,14 +80,14 @@ const CommModify = () => {
                     <div className="write__box">
                         <div className="cate">
                             <select name="category" id="cate" value={selectCate} onChange={cateChange}>
-                                <option value="일반게시판">일반게시판</option>
-                                <option value="입시결과게시판">입시결과 게시판</option>
-                                <option value="대학생게시판">대학생 게시판</option>
-                                <option value="수험생게시판">수험생 게시판</option>
-                                <option value="홍보게시판">홍보 게시판</option>
-                                <option value="학부모게시판">학부모 게시판</option>
-                                <option value="교사게시판">교사 게시판</option>
-                                <option value="정보게시판">정보 게시판</option>
+                                <option value="일반">일반게시판</option>
+                                <option value="입시결과">입시결과 게시판</option>
+                                <option value="대학생">대학생 게시판</option>
+                                <option value="수험생">수험생 게시판</option>
+                                <option value="홍보">홍보 게시판</option>
+                                <option value="학부모">학부모 게시판</option>
+                                <option value="교사">교사 게시판</option>
+                                <option value="정보">정보 게시판</option>
                             </select>
                         </div>
                         <div className="input">

@@ -836,14 +836,22 @@
                             border: 1px solid #ddd;
                             border-radius: 8px;
                             color: #9B9B9B;
+
+                            &.active {
+                                color: var(--primary-color);
+                                border: 1px solid var(--primary-color);
+                            }
                         }
+
                     }
+
 
                     .count_cont {
                         display: flex;
                         justify-content: space-between;
 
                         span {
+                            cursor: pointer;
                             display: block;
                             width: 23.5%;
                             text-align: center;
@@ -851,6 +859,11 @@
                             border: 1px solid #ddd;
                             border-radius: 8px;
                             color: #9B9B9B;
+
+                            &.active {
+                                color: var(--primary-color);
+                                border: 1px solid var(--primary-color);
+                            }
                         }
                     }
                 }

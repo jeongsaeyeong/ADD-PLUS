@@ -80,6 +80,38 @@ router.post("/list", (req, res) => {
         });
 });
 
+router.post("/hot", (req, res) => {
+    let sort = {};
+
+    if (req.body.sort === "최신순") {
+        sort = { createdAt: -1 };
+    } else {
+        sort = { repleNum: -1 };
+    }
+
+    Post.find({
+        $and: [
+            {
+                $or: [
+                    { title: { $regex: req.body.searchTerm, $options: 'i' } },
+                    { content: { $regex: req.body.searchTerm, $options: 'i' } },
+                ]
+            },
+            { $expr: { $gte: ["$likeNum", 10] } }
+        ]
+    })
+        .sort(sort) // 정렬 조건 적용
+        .populate("author")
+        .exec()
+        .then((result) => {
+            res.status(200).json({ success: true, postList: result });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({ success: false });
+        });
+})
+
 // 글 상세페이지
 router.post("/detail", (req, res) => {
     Post
@@ -205,8 +237,26 @@ router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {
 
 // 글 리스트
 router.post("/mylist", (req, res) => {
+
+    User.find({ uid: req.body.uid })
+        .then((result) => {
+            Post.find({ anothor: result._id })
+                .populate("author")
+                .exec()
+                .then((result) => {
+                    res.status(200).json({ success: true, postList: result });
+                })
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json({ success: false });
+        });
+});
+
+// 글 리스트
+router.post("/likelist", (req, res) => {
     Post
-        .find({ uid: req.body.uid })
+        .find({ likeid: { $in: req.body.uid } })  // $in 연산자 사용
         .populate("author")
         .exec()
         .then((result) => {
@@ -217,6 +267,5 @@ router.post("/mylist", (req, res) => {
             res.status(400).json({ success: false });
         });
 });
-
 
 module.exports = router;

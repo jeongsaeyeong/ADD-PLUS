@@ -3,13 +3,30 @@ import MypageSide from './MypageSide'
 import displayBig from '../../assets/img/mypage/display_big.png';
 import displayMedium from '../../assets/img/mypage/display_medium.png';
 import displaySmall from '../../assets/img/mypage/display_small.png';
-
+import axios from 'axios'
+import { useSelector } from 'react-redux';
 
 const MypageDisplay = () => {
 
     const [displayImage, setDisplayImage] = useState(displayBig);
     const [selectedSize, setSelectedSize] = useState('large');
     const [isBuyOpen, setIsBuyOpen] = useState(false);
+    const user = useSelector((state) => state.user)
+
+    // 구매 문의 정보 
+
+    const [coparation, setCoparation] = useState('');
+    const [img, setimg] = useState('');
+    const [link, setLink] = useState('');
+    const [charge, setCharge] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+
+    const [isChecked, setChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setChecked(!isChecked); // 체크 상태를 토글
+    };
 
     const changeImage = (image) => {
         setDisplayImage(image);
@@ -17,6 +34,42 @@ const MypageDisplay = () => {
 
     const toggleBuy = () => {
         setIsBuyOpen(!isBuyOpen);
+    }
+
+    // onSubmit
+
+    const onSubmit = () => {
+        if (coparation === '' || link === '' || charge === '' || phone === '' || email === '') {
+            alert('빈칸 없이 내용을 채워주세요.')
+            return
+        }
+
+        if (!(isChecked)) {
+            alert("개인정보 수집 및 이용에 동의하지 않으신다면 폼을 제출할 수 없습니다.")
+            return
+        }
+
+        let body = {
+            user: user.uid,
+            coparation: coparation,
+            link: link,
+            charge: charge,
+            phone: phone,
+            email: email,
+        }
+
+        axios.post('/api/advertisment/submit', body)
+            .then((res) => {
+                if (res.data.success) {
+                    alert("광고 신청이 완료되었습니다.");
+                    setIsBuyOpen(!isBuyOpen);
+                    setCoparation('')
+                    setLink('')
+                    setCharge('')
+                    setPhone('')
+                    setEmail('')
+                }
+            })
     }
 
     return (
@@ -144,7 +197,7 @@ const MypageDisplay = () => {
                             <ul>
                                 <li>
                                     <label htmlFor="">기업명</label>
-                                    <input type="text" placeholder='기업명을 입력해주세요' />
+                                    <input type="text" value={coparation} onChange={(e) => { setCoparation(e.currentTarget.value) }} placeholder='기업명을 입력해주세요' />
                                 </li>
                                 <li>
                                     <label htmlFor="">광고 소재</label>
@@ -152,30 +205,30 @@ const MypageDisplay = () => {
                                 </li>
                                 <li>
                                     <label htmlFor="">클릭URL</label>
-                                    <input type="text" placeholder='URL을 입력해주세요' />
+                                    <input type="text" value={link} onChange={(e) => { setLink(e.currentTarget.value) }} placeholder='URL을 입력해주세요' />
                                 </li>
                                 <li>
                                     <label htmlFor="">담당자</label>
-                                    <input type="text" placeholder='담당자 이름을 입력해주세요' />
+                                    <input type="text" value={charge} onChange={(e) => { setCharge(e.currentTarget.value) }} placeholder='담당자 이름을 입력해주세요' />
                                 </li>
                                 <li>
                                     <label htmlFor="">연락처</label>
-                                    <input type="text" placeholder='연락처을 입력해주세요' />
+                                    <input type="text" value={phone} onChange={(e) => { setPhone(e.currentTarget.value) }} placeholder='연락처을 입력해주세요' />
                                 </li>
                                 <li>
                                     <label htmlFor="">이메일</label>
-                                    <input type="text" placeholder='이메일을 입력해주세요' />
+                                    <input type="text" value={email} onChange={(e) => { setEmail(e.currentTarget.value) }} placeholder='이메일을 입력해주세요' />
                                 </li>
                             </ul>
                             <div className='check_wrap'>
                                 <label htmlFor='popcheck' className="checkCont">개인정보 수집 및 이용 동의
-                                    <input id='popcheck' type="checkbox" name="radio" />
+                                    <input id='popcheck' type="checkbox" name="radio" checked={isChecked} onChange={handleCheckboxChange} />
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                             <div className="pop_btn">
                                 <button className='cancle_btn' onClick={toggleBuy}>취소</button>
-                                <button className='charge_btn'>문의하기</button>
+                                <button className='charge_btn' onClick={() => { onSubmit() }}>문의하기</button>
                             </div>
                         </div>
                     </div>

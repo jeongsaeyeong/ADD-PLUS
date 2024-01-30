@@ -1,7 +1,7 @@
 .comm__Wrap {
     display: flex;
     flex-wrap: wrap;
-    height: 100vh;
+    // height: 100vh;
 
     .nav {
         width: 15%;
@@ -163,6 +163,7 @@
             display: flex;
             flex-wrap: wrap;
             min-height: 80vh;
+            align-content: flex-start;
 
             .comm__box {
                 width: 32%;
@@ -208,21 +209,25 @@
 
                     .comm__header {
                         display: flex;
-                        align-items: flex-end;
                         margin-bottom: 20px;
+                        align-items: center;
+                        width: 100%;
 
                         .cate {
-                            padding: 5px 8px 2px;
+                            text-align: center;
+                            height: 100%;
+                            width: 20%;
+                            padding: 5px 5px 2px;
                             background-color: #FF5E5E;
                             border-radius: 5px;
                             color: var(--white);
                             font-size: 13px;
                             font-weight: 900;
                             margin-right: 10px;
-
                         }
 
                         h2 {
+                            width: 70%;
                             font-size: 20px;
                             line-height: 1;
                         }

@@ -75,6 +75,8 @@ const Join03 = () => {
         if (!userEmail) {
             return alert("이메일을 입력해주세요!");
         }
+
+        alert("중복검사")
         let body = {
             userEmail: userEmail,
         }
