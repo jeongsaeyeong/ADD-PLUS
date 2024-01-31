@@ -4,8 +4,10 @@ import heart from '../../../assets/img/icon_heart.svg'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import CommReport from './CommReport';
+import { useSelector } from 'react-redux';
 
 const CommButton = (props) => {
+    const user = useSelector((state) => state.user)
 
     let params = useParams();
     let navigate = useNavigate();
@@ -19,6 +21,7 @@ const CommButton = (props) => {
         if (window.confirm('정말로 삭제하시겠습니까?')) {
             let body = {
                 postNum: params.postNum,
+                uid: user.uid
             }
             axios
                 .post('/api/post/delete', body)

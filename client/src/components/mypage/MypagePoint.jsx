@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, Link, useEffect } from 'react'
 import MypageSide from './MypageSide'
 import tabler_coins from '../../assets/img/mypage/tabler_coins.png'
 import tabler_coins_1 from '../../assets/img/mypage/tabler_coins-1.png'
 import tabler_coins_2 from '../../assets/img/mypage/tabler_coins-2.png'
-
+import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 const MypagePoint = () => {
 
     const [isGuideOpen, setIsGuideOpen] = useState(false);
     const [isChargeOpen, setIsChargeOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [pointList, setPointList] = useState([]);
+    const [total, setTotal] = useState(0)
+    const [allplus, setAllplus] = useState(0)
+    const [allminus, setAllminus] = useState(0)
+    const [minusPlus, setMinusPlus] = useState([])
+
+    const user = useSelector((state) => state.user)
 
     const toggleGuide = () => {
         setIsGuideOpen(!isGuideOpen);
@@ -21,6 +29,74 @@ const MypagePoint = () => {
 
     const handleSpanClick = (index) => {
         setActiveIndex(index);
+    };
+
+    // 내 포인트 정보 불러오기 
+
+    const getPoint = () => {
+        let body = {
+            uid: user.uid
+        }
+
+        axios.post('/api/point/get', body)
+            .then((res) => {
+                if (res.data.success) {
+                    setPointList([...res.data.pointlist])
+                } else {
+                    alert("문제가 발생했습니다.")
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        getPoint();
+    }, [user, total])
+
+    useEffect(() => {
+        TTmount();
+        PlusMinus();
+    }, [pointList]);
+
+    const TTmount = () => {
+        const totalAmount = pointList.reduce((acc, doc) => {
+            if (doc) {
+                const plusAmount = doc.plus.reduce((sum, plusObj) => sum + plusObj.amount, 0);
+                const minusAmount = doc.minus.reduce((sum, minusObj) => sum + minusObj.amount, 0);
+
+                setAllplus(plusAmount);  // 수정
+                setAllminus(minusAmount);  // 수정
+
+                return acc + plusAmount + minusAmount;
+            }
+            return acc;
+        }, 0);
+
+        setTotal(totalAmount);
+    }
+
+    const PlusMinus = () => {
+
+        const combinedArray = pointList.reduce((combined, doc) => {
+            if (doc) {
+                combined.push(...doc.plus.slice(1).map(item => ({ ...item, type: 'plus' })));
+                combined.push(...doc.minus.slice(1).map(item => ({ ...item, type: 'minus' })));
+            }
+            return combined;
+        }, []);
+
+        const sortedArray = combinedArray.sort((a, b) => new Date(b.time) - new Date(a.time));
+        setMinusPlus(sortedArray);
+    }
+
+    let currentBalance = 0;
+
+    const calculateCurrentBalance = (partialList) => {
+        return partialList.reduce((acc, item) => {
+            return acc + item.amount;
+        }, 0);
     };
 
     return (
@@ -39,28 +115,28 @@ const MypagePoint = () => {
                                 <img src={tabler_coins} />
                                 <div className="point_tit">
                                     <h3>총 보유 포인트</h3>
-                                    <em>2,541P</em>
+                                    <em>{total}P</em>
                                 </div>
                             </div>
                             <div className="point_account">
                                 <img src={tabler_coins_1} />
                                 <div className="point_tit">
                                     <h3>적립 포인트</h3>
-                                    <em>2,541P</em>
+                                    <em>{allplus}P</em>
                                 </div>
                             </div>
                             <div className="point_charge">
                                 <img src={tabler_coins_1} />
                                 <div className="point_tit">
                                     <h3>충전 포인트</h3>
-                                    <em>2,541P</em>
+                                    <em>0P</em>
                                 </div>
                             </div>
                             <div className="point_used">
                                 <img src={tabler_coins_2} />
                                 <div className="point_tit">
                                     <h3>사용 포인트</h3>
-                                    <em>- 2,541P</em>
+                                    <em>{allminus}P</em>
                                 </div>
                             </div>
                         </div>
@@ -79,27 +155,30 @@ const MypagePoint = () => {
                                 <th>적립</th>
                                 <th>포인트 잔액</th>
                             </tr>
-                            <tr>
-                                <td><span className='account_tag'>적립</span>커뮤니티 댓글 5회 작성 완료</td>
-                                <td>2023.12.14 13:44</td>
-                                <td></td>
-                                <td><span className='account_coin'>+ 100P</span></td>
-                                <td className='total'>2,100P</td>
-                            </tr>
-                            <tr>
-                                <td><span className='use_tag'>사용</span>커뮤니티 댓글 5회 작성 완료</td>
-                                <td>2023.12.14 13:44</td>
-                                <td><span className='use_coin'>- 100P</span></td>
-                                <td></td>
-                                <td className='total'>2,100P</td>
-                            </tr>
-                            <tr>
-                                <td><span className='charge_tag'>충전</span>커뮤니티 댓글 5회 작성 완료</td>
-                                <td>2023.12.14 13:44</td>
-                                <td></td>
-                                <td><span className='charge_coin'>+ 100P</span></td>
-                                <td className='total'>2,100P</td>
-                            </tr>
+                            {minusPlus.map((list, key) => {
+                                const currentBalance = calculateCurrentBalance(minusPlus.slice(0, key + 1));
+
+                                return (
+                                    <tr key={key}>
+                                        {list.title === '적립' ? (
+                                            <>
+                                                <td><span className='account_tag'>적립</span>{list.reason}</td>
+                                                <td>{new Date(list.time).toLocaleString('ko-KR', { hour12: false })}</td>
+                                                <td></td>
+                                                <td><span className='account_coin'>+{list.amount}P</span></td>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <td><span className='use_tag'>사용</span>{list.reason}</td>
+                                                <td>{new Date(list.time).toLocaleString('ko-KR', { hour12: false })}</td>
+                                                <td><span className='use_coin'>{list.amount}P</span></td>
+                                                <td></td>
+                                            </>
+                                        )}
+                                        <td className='total'>{currentBalance}P</td>
+                                    </tr>
+                                );
+                            })}
                         </table>
                     </div>
                 </div>
@@ -176,11 +255,11 @@ const MypagePoint = () => {
                             </div>
 
                             <div className="mypage_college_radio charge_radio">
-                                <label className="container">서비스 이용약관에 동의합니다. <a href="#">[전문보기]</a>
+                                <label className="container">서비스 이용약관에 동의합니다. <Link to="#">[전문보기]</Link>
                                     <input type="checkbox" name="radio" />
                                     <span className="checkmark"></span>
                                 </label>
-                                <label className="container">개인정보수집 및 이용정책에 동의합니다. <a href="#">[전문보기]</a>
+                                <label className="container">개인정보수집 및 이용정책에 동의합니다. <Link to="#">[전문보기]</Link>
                                     <input type="checkbox" name="radio" />
                                     <span className="checkmark"></span>
                                 </label>

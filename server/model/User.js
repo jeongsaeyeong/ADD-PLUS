@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema(
         userPass: String,
         userPhone: String,
         userCate: String,
-        uid: String
+        uid: String,
+        point: Number
     },
     { collection: "users" }
 );

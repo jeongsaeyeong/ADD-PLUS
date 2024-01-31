@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // 스키마 만들기
+const { Point } = require("../model/Point.js");
 const { Post } = require("../model/Post.js");
 const { Counter } = require("../model/Counter.js");
 const { User } = require("../model/User.js");
@@ -34,9 +35,29 @@ router.post("/write", (req, res) => {
                     BordWrite
                         .save()
                         .then(() => {
-                            Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } }).then(() => {
-                                res.status(200).json({ success: true });
-                            })
+                            Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } })
+                                .then(() => {
+                                    Point.updateOne(
+                                        { uid: req.body.uid },
+                                        {
+                                            $push: {
+                                                plus: {
+                                                    title: "적립",
+                                                    reason: "게시글 작성",
+                                                    time: new Date(),  // 수정된 부분
+                                                    amount: 100
+                                                }
+                                            }
+                                        }
+                                    )
+                                        .then(() => {
+                                            res.status(200).json({ success: true });
+                                        })
+                                        .catch((error) => {
+                                            console.error(error);
+                                            res.status(500).json({ success: false, error: "Internal Server Error" });
+                                        });
+                                })
                         })
                 })
         })
@@ -133,7 +154,22 @@ router.post("/delete", (req, res) => {
         .deleteOne({ postNum: Number(req.body.postNum) })
         .exec()
         .then(() => {
-            res.status(200).json({ success: true })
+            Point.updateOne(
+                { uid: req.body.uid },
+                {
+                    $push: {
+                        minus: {
+                            title: "사용",
+                            reason: "게시글 삭제",
+                            time: new Date(),  // 수정된 부분
+                            amount: -100
+                        }
+                    }
+                }
+            )
+                .then(() => {
+                    res.status(200).json({ success: true });
+                })
         })
         .catch((err) => {
             console.log(err)
@@ -237,21 +273,29 @@ router.post("/image/upload", setUpload("addplus/post"), (req, res, next) => {
 
 // 글 리스트
 router.post("/mylist", (req, res) => {
-
     User.find({ uid: req.body.uid })
         .then((result) => {
-            Post.find({ anothor: result._id })
-                .populate("author")
-                .exec()
-                .then((result) => {
-                    res.status(200).json({ success: true, postList: result });
-                })
+            if (result.length > 0) {
+                Post.find({ author: result[0]._id })
+                    .populate("author")
+                    .exec()
+                    .then((posts) => {
+                        res.status(200).json({ success: true, postList: posts });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({ success: false, error: "Internal Server Error" });
+                    });
+            } else {
+                res.status(404).json({ success: false, error: "User not found" });
+            }
         })
         .catch((err) => {
             console.log(err);
-            res.status(400).json({ success: false });
+            res.status(500).json({ success: false, error: "Internal Server Error" });
         });
 });
+
 
 // 글 리스트
 router.post("/likelist", (req, res) => {

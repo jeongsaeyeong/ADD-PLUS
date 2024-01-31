@@ -20,6 +20,7 @@ app.use("/api/score", require("./router/score.js"));
 app.use("/api/moiscore", require("./router/moiscore.js"));
 app.use("/api/university", require("./router/university.js"));
 app.use("/api/advertisment", require("./router/advertisment.js"));
+app.use("/api/point", require("./router/point.js"));
 
 app.listen(port, () => {
     mongoose

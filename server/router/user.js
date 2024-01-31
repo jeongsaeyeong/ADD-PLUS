@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { User } = require("../model/User.js");
+const { Point } = require("../model/Point.js");
 const { Counter } = require("../model/Counter.js");
 
 router.post("/join", (req, res) => {
@@ -15,9 +16,30 @@ router.post("/join", (req, res) => {
 
             const userData = new User(temp);
             userData.save().then(() => {
-                Counter.updateOne({ name: "counter" }, { $inc: { userNum: 1 } }).then(() => {
-                    res.status(200).json({ success: true })
-                })
+                Counter.updateOne({ name: "counter" }, { $inc: { userNum: 1 } })
+                    .then(() => {
+                        let point = {
+                            uid: req.body.uid,
+                            minus: [{
+                                title: "적립",
+                                reason: "Made",  // 초기값에 대한 이유를 설정하세요.
+                                time: new Date(),
+                                amount: 0
+                            }],
+                            plus: [{
+                                title: "사용",
+                                reason: "Made",  // 초기값에 대한 이유를 설정하세요.
+                                time: new Date(),
+                                amount: 0
+                            }],
+                            charge: 0,
+                        }
+                        const userPoint = new Point(point)
+                        userPoint.save().then(() => {
+                            res.status(200).json({ success: true })
+                        })
+                    })
+
             })
         })
         .catch((err) => {
